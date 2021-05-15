@@ -9,12 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1298737553783195783}
+  - component: {fileID: 2883380314014227594}
   m_Layer: 0
   m_Name: Balcony
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1298737553783195783
 Transform:
@@ -31,6 +32,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2883380314014227594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4351392275933864621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f733784d666df7f40965da8a65867e91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shopGenProb: 10
+  shopEnter: {fileID: 1453025392728712457, guid: ee8dd235952f28a4ab70b0b26d25b7ad, type: 3}
 --- !u!1001 &6531811361420270735
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41,6 +56,10 @@ PrefabInstance:
     - target: {fileID: 106674, guid: 739bafb6919218f46b973104ad258f8b, type: 3}
       propertyPath: m_Name
       value: SM_Bld_Shop_Cover_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 106674, guid: 739bafb6919218f46b973104ad258f8b, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 486278, guid: 739bafb6919218f46b973104ad258f8b, type: 3}
       propertyPath: m_RootOrder

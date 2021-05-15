@@ -6,16 +6,21 @@ public class Bat : MonoBehaviour
 {
     public int attackRandom = 3;
     public float attackMinTime = 0.5f;
-    public int startForce = 2000;
+    public int eliteAttackRandom = 2;
+    public float eliteAttackMinTIme = 0;
     public int attackForce = 2000;
+    public int eliteAttackForce = 2000;
     public int hitForce = 500;
-    public int gunDeltaY = 3;
+    public int eliteHitForce = 1000;
+    public float gunMinDeltaY = 3;
+    public float gunMaxDeltaY = 6;
     public int speed = 20;
     public int maxDownSpeed = 5;
     public float attackDeltaXVector = 1f;
 
     public AudioSource dieSound;
     public AudioSource hitSound;
+    public Color outlineColor;
 
     private float startTimer;
     private float attackTimer = 0;
@@ -31,6 +36,9 @@ public class Bat : MonoBehaviour
     public int rotateSpeed = 720;
     private bool right = true;
 
+    private float gunDeltaY;
+
+    private bool elite = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -46,7 +54,12 @@ public class Bat : MonoBehaviour
             gun = tempgun;
         }
 
-        startTimer = Random.value * attackRandom + attackMinTime;
+        if(!elite)
+            startTimer = Random.value * attackRandom + attackMinTime;
+        else
+            startTimer = Random.value * eliteAttackRandom + eliteAttackMinTIme;
+
+        RandomizeDeltaY();
     }
 
     // Update is called once per frame
@@ -72,6 +85,25 @@ public class Bat : MonoBehaviour
                 CheckNewFollow();
             }
         }
+    }
+
+    public void Elite()
+    {
+        GetComponent<Outline>().OutlineColor = Color.red;
+        elite = true;
+    }
+
+    private void nonElite()
+    {
+        GetComponent<Outline>().OutlineColor = outlineColor;
+        elite = false;
+
+        startTimer = Random.value * attackRandom + attackMinTime;
+    }
+
+    void RandomizeDeltaY()
+    {
+        gunDeltaY = Random.Range(gunMinDeltaY, gunMaxDeltaY);
     }
 
     void CheckSpeed()
@@ -112,9 +144,22 @@ public class Bat : MonoBehaviour
         {
             attack = true;
             float DeltaXVector = (Random.value * 2 - 1) * attackDeltaXVector;
-            rig.AddForce(new Vector3(DeltaXVector, 1, 0) * attackForce, ForceMode.Force);
-            attackTimer = 0;
-            startTimer = Random.value * attackRandom + attackMinTime;
+            if (!elite)
+            {
+                rig.AddForce(new Vector3(DeltaXVector, 1, 0) * attackForce, ForceMode.Force);
+                attackTimer = 0;
+                startTimer = Random.value * attackRandom + attackMinTime;
+            }
+            else
+            {
+                rig.AddForce(new Vector3(DeltaXVector, 1, 0) * eliteAttackForce, ForceMode.Force);
+                attackTimer = 0;
+                startTimer = Random.value * eliteAttackRandom + eliteAttackMinTIme;
+            }
+                
+            
+
+            RandomizeDeltaY();
         }
     }
 
@@ -138,11 +183,26 @@ public class Bat : MonoBehaviour
 
     void OnTriggerEnter(Collider myTrigger)
     {
-        if (myTrigger.gameObject.tag == "Gun")
+        if (myTrigger.gameObject.tag == "Gun" && !dead)
         {
             hitSound.Play();
-            myTrigger.gameObject.GetComponent<Gun>().stun = true;
-            myTrigger.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, -1, 0) * hitForce, ForceMode.Force);
+            if(gun.GetComponent<Gun>().deathTaken)
+            {
+                Shooted();
+            }
+            else
+            {
+                if (!elite)
+                {
+                    myTrigger.gameObject.GetComponent<Gun>().stun = true;
+                    myTrigger.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, -1, 0) * hitForce, ForceMode.Force);
+                }
+                else
+                {
+                    myTrigger.gameObject.GetComponent<Gun>().eliteStun = true;
+                    myTrigger.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, -1, 0) * eliteHitForce, ForceMode.Force);
+                }
+            }
         }
     }
 
@@ -151,8 +211,15 @@ public class Bat : MonoBehaviour
         if (!dead)
         {
             dieSound.Play();
-            dead = true;
-            Destroy(gameObject, 3);
+
+            if (!elite)
+            {
+                dead = true;
+            }
+            else
+            {
+                nonElite();
+            }
         }
         else
         {

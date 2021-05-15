@@ -27,6 +27,7 @@ public class HandGun : MonoBehaviour
             newGun.GetComponent<Rigidbody>().AddForce(forceVector * force, ForceMode.Force);
 
             GameObject.Find("Main Camera").GetComponent<BuildingGenerator>().StartGame();
+            GameObject.Find("Bonus Generator").GetComponent<BonusGenerator>().StartGame();
         }
         
     }

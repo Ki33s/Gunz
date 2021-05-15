@@ -11,6 +11,8 @@ TagManager:
   - GameSystem
   - LeftWall
   - RightWall
+  - DestroyableEnemy
+  - Boost
   layers:
   - Default
   - TransparentFX

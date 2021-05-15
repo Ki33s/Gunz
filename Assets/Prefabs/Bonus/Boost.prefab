@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 7329188380665211614}
   - component: {fileID: 5340839110126899365}
   - component: {fileID: 8671576710947998301}
-  - component: {fileID: 2556445149218654243}
+  - component: {fileID: 5247886608871213083}
   m_Layer: 0
   m_Name: Boost
-  m_TagString: Untagged
+  m_TagString: Boost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -97,7 +97,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2556445149218654243
+--- !u!114 &5247886608871213083
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14b6b2b068d724f48954fe9cc65939cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: 2500
+  boostForce: 2000
 --- !u!1001 &2828086453191979600
 PrefabInstance:
   m_ObjectHideFlags: 0

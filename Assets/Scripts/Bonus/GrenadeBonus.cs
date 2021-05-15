@@ -15,7 +15,7 @@ public class GrenadeBonus : MonoBehaviour
             CastFlash();
             Destroy(gameObject);
         }
-        else if (myTrigger.gameObject.tag == "Enemy")
+        else if (myTrigger.gameObject.tag == "Enemy" || myTrigger.gameObject.tag == "DestroyableEnemy")
         {
             Instantiate(takeEffect, transform.position, Quaternion.identity);
             Destroy(gameObject);
@@ -27,7 +27,7 @@ public class GrenadeBonus : MonoBehaviour
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
         foreach (var hitCollider in hitColliders)
         {
-            if (hitCollider.tag == "Enemy")
+            if (hitCollider.tag == "Enemy" || hitCollider.tag == "DestroyableEnemy")
             {
                 hitCollider.SendMessage("Shooted");
                 GameObject.Find("Main Camera").GetComponent<ScoreManager>().Kills++;

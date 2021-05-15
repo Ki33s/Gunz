@@ -39,7 +39,7 @@ public class Coin : MonoBehaviour
                 GameObject.Find("Main Camera").GetComponent<ScoreManager>().updateCoins();
                 dead = true;
             }
-            else if (myTrigger.gameObject.tag == "Enemy")
+            else if (myTrigger.gameObject.tag == "Enemy" || myTrigger.gameObject.tag == "DestroyableEnemy")
             {
                 dead = true;
             }

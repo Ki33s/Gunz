@@ -17,7 +17,7 @@ public class FlashBonus : MonoBehaviour
             Destroy(gameObject);
             CastFlash();
         }
-        else if (myTrigger.gameObject.tag == "Enemy")
+        else if (myTrigger.gameObject.tag == "Enemy" || myTrigger.gameObject.tag == "DestroyableEnemy")
         {
             dead = true;
             Instantiate(takeEffect, transform.position, Quaternion.identity);

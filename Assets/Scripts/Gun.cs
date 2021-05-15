@@ -18,10 +18,15 @@ public class Gun : MonoBehaviour
     public float recoil_time = 0.5f;
     public int shootDistance = 10;
     public float stunForce = 1.5f;
+    public float eliteStunForce = 0.5f;
     private bool recoil = true;
     private float recoil_dt = 0f;
     public bool stun = false;
+    public bool eliteStun = false;
     private bool rotRight = false;
+
+    public bool deathTaken = false;
+    private float deathTimer;
 
     private Rigidbody rig;
     // Start is called before the first frame update
@@ -39,6 +44,17 @@ public class Gun : MonoBehaviour
         CheckRecoil();
         Rotate();
         CheckSpeed();
+
+        if (deathTaken)
+            CheckDeathTimer();
+    }
+
+    void CheckDeathTimer()
+    {
+        if (deathTimer > 0)
+            deathTimer -= Time.deltaTime;
+        else
+            deathTaken = false;
     }
 
     void CheckShoot()
@@ -47,6 +63,9 @@ public class Gun : MonoBehaviour
         {
             if(stun)
                 stun = false;
+
+            if (eliteStun)
+                eliteStun = false;
 
             ammo--;
             gunRotZ.GetComponent<GunZRotate>().ChangeRotate();
@@ -75,6 +94,12 @@ public class Gun : MonoBehaviour
                     //ParticleSystem newMetalEffect = Instantiate(metalEffect, hit.point, Quaternion.identity);
                     //newMetalEffect.transform.rotation = transform.rotation;
                 }
+                else if (hit.transform.tag == "DestroyableEnemy")
+                {
+                    hit.transform.SendMessage("Shooted");
+                    GameObject.Find("Main Camera").GetComponent<ScoreManager>().Kills++;
+                    GameObject.Find("Main Camera").GetComponent<ScoreManager>().updateKills();
+                }
                 else if (hit.transform.tag == "Bonus")
                 {
                     hit.transform.SendMessage("Take");
@@ -85,6 +110,12 @@ public class Gun : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void TakeDeath()
+    {
+        deathTimer = 10f;
+        deathTaken = true;
     }
 
     public void RefillAmmo()
@@ -134,6 +165,8 @@ public class Gun : MonoBehaviour
 
         if (stun)
             nowRotateSpeed = nowRotateSpeed * stunForce;
+        else if (eliteStun)
+            nowRotateSpeed = nowRotateSpeed * eliteStunForce;
 
         if (!rotRight)
                 transform.Rotate(Vector3.left * nowRotateSpeed * Time.deltaTime);

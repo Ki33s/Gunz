@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   takeEffect: {fileID: 5888006101527702606, guid: 69ee360e8b5b9694b997293d5667b1d4, type: 3}
-  radius: 10
+  radius: 5
 --- !u!1001 &1843773565697762353
 PrefabInstance:
   m_ObjectHideFlags: 0

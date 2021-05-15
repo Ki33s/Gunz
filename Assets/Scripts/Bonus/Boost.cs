@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Boost : MonoBehaviour
 {
-    public int force = 1000;
+    public int boostForce = 2000;
 
     void OnTriggerEnter(Collider myTrigger)
     {
-        if (myTrigger.gameObject.tag == "Gun")//|| myTrigger.gameObject.tag == "Enemy"
+        if (myTrigger.gameObject.tag == "Gun")
         {
-            myTrigger.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1, 0) * force, ForceMode.Force);
+            myTrigger.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1, 0) * boostForce, ForceMode.Force);
         }
     }
 }
