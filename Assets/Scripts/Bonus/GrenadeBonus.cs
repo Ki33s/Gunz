@@ -6,7 +6,7 @@ public class GrenadeBonus : MonoBehaviour
 {
     public ParticleSystem takeEffect;
     public int radius = 5;
-
+    public int hitForce = 500;
     void OnTriggerEnter(Collider myTrigger)
     {
         if (myTrigger.gameObject.tag == "Gun")
@@ -30,12 +30,16 @@ public class GrenadeBonus : MonoBehaviour
             if (hitCollider.tag == "Enemy" || hitCollider.tag == "DestroyableEnemy")
             {
                 hitCollider.SendMessage("Shooted");
+                Vector3 heading = hitCollider.transform.position - transform.position;
+                hitCollider.GetComponent<Rigidbody>().AddForce(heading.normalized * hitForce, ForceMode.Force);
+
                 GameObject.Find("Main Camera").GetComponent<ScoreManager>().Kills++;
                 GameObject.Find("Main Camera").GetComponent<ScoreManager>().updateKills();
             }
             else if (hitCollider.tag == "Aircoin")
                 hitCollider.transform.GetComponent<Aircoin>().Shooted();
         }
+
     }
 
     void Take()

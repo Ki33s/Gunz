@@ -121,11 +121,10 @@ GameObject:
   - component: {fileID: 8580167822039471891}
   - component: {fileID: 1584742039985290182}
   - component: {fileID: 5875200069557124280}
-  - component: {fileID: 3333862494803534083}
   - component: {fileID: 1326253470569646793}
   - component: {fileID: 4554520831075687756}
-  - component: {fileID: 1066735483774596567}
   - component: {fileID: 878756450497160624}
+  - component: {fileID: -2561515053189001895}
   m_Layer: 0
   m_Name: Pan
   m_TagString: Enemy
@@ -220,40 +219,13 @@ Rigidbody:
   m_GameObject: {fileID: 3469684336205326038}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 1
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &3333862494803534083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3469684336205326038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba5df05f5d5ab004296bf3cdfa797270, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackRandom: 2
-  attackMinTime: 1
-  eliteAttackRandom: 2
-  eliteAttackMinTIme: 0.5
-  attackForce: 1100
-  eliteAttackForce: 1200
-  hitForce: 1200
-  eliteHitForce: 1600
-  gunMinDeltaY: 3
-  gunMaxDeltaY: 6
-  speed: 15
-  maxDownSpeed: 5
-  dieSound: {fileID: 4554520831075687756}
-  hitSound: {fileID: 1326253470569646793}
-  outlineColor: {r: 0.94509804, g: 0.79607844, b: 0.34901962, a: 1}
 --- !u!82 &1326253470569646793
 AudioSource:
   m_ObjectHideFlags: 0
@@ -446,21 +418,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1066735483774596567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3469684336205326038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65daa3a2624a4534ba28dcf6370feaf4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  steamRange: 5
-  steamTimer: 0
-  steamRight: 0
 --- !u!114 &878756450497160624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,7 +432,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.94509804, g: 0.79607844, b: 0.34901962, a: 1}
-  outlineWidth: 4
+  outlineWidth: 2
   precomputeOutline: 1
   bakeKeys:
   - {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
@@ -853,6 +810,45 @@ MonoBehaviour:
     - {x: 0.5243289, y: -0.3027157, z: 0.7958909}
     - {x: 0.30271837, y: -0.52432656, z: 0.7958915}
     - {x: -0.8653234, y: 0.4995962, z: 0.040236633}
+--- !u!114 &-2561515053189001895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3469684336205326038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16e3ed2baf712484c8afc99a204297b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRandom: 2
+  attackMinTime: 2
+  eliteAttackRandom: 1
+  eliteAttackMinTIme: 1
+  minAttackForce: 1100
+  maxAttackForce: 1400
+  eliteMinAttackForce: 1200
+  eliteMaxAttackForce: 1500
+  minHitForce: 500
+  maxHitForce: 800
+  eliteMinHitForce: 8000
+  eliteMaxHitForce: 1200
+  gunMinDeltaY: 2
+  gunMaxDeltaY: 5
+  minFollowSpeed: 7
+  maxFollowSpeed: 15
+  speedDelta: 15
+  attackDeltaXVector: 0
+  followGunSpeed: 0
+  eliteFollowGunSpeed: 0
+  xSpeed: 0
+  eliteXSpeed: 0
+  speed: 15
+  maxDownSpeed: 5
+  hitSound: {fileID: 4554520831075687756}
+  dieSound: {fileID: 1326253470569646793}
+  outlineColor: {r: 0.94509804, g: 0.79607844, b: 0.34901962, a: 1}
 --- !u!1001 &3193222017072036294
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -863,6 +859,10 @@ PrefabInstance:
     - target: {fileID: 1332914809032618, guid: 3e423096e91b7cb4880f4621cd70d11a, type: 3}
       propertyPath: m_Name
       value: SM_Wep_Pan_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1332914809032618, guid: 3e423096e91b7cb4880f4621cd70d11a, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 4371063206081592, guid: 3e423096e91b7cb4880f4621cd70d11a, type: 3}
       propertyPath: m_RootOrder

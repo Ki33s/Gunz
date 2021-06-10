@@ -108,11 +108,11 @@ GameObject:
   - component: {fileID: 7578635550455876089}
   - component: {fileID: 233932330881466394}
   - component: {fileID: 2867700314669536575}
-  - component: {fileID: 5115061949992560385}
   - component: {fileID: 5351628849416257075}
   - component: {fileID: 603482795474397358}
   - component: {fileID: 7455068155270043298}
-  - component: {fileID: 512507081233149089}
+  - component: {fileID: -2514759945411157637}
+  - component: {fileID: 3942780022577773549}
   m_Layer: 0
   m_Name: Machete
   m_TagString: Enemy
@@ -207,44 +207,13 @@ Rigidbody:
   m_GameObject: {fileID: 7707849826681258811}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 1
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &5115061949992560385
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7707849826681258811}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e6c77bc41c7f3624b9c48bf4b0bd4182, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackRandom: 3
-  attackMinTime: 1
-  eliteAttackRandom: 2
-  eliteAttackMinTIme: 0.5
-  attackForce: 900
-  eliteAttackForce: 1000
-  hitForce: 900
-  eliteHitForce: 1300
-  gunMinDeltaY: 3
-  gunMaxDeltaY: 6
-  speed: 15
-  maxDownSpeed: 5
-  xSpeed: 4
-  eliteXSpeed: 6
-  attackDeltaXVector: 1
-  dieSound: {fileID: 603482795474397358}
-  hitSound: {fileID: 5351628849416257075}
-  outlineColor: {r: 0.94509804, g: 0.79607844, b: 0.34901962, a: 1}
-  rotateSpeed: 360
 --- !u!82 &5351628849416257075
 AudioSource:
   m_ObjectHideFlags: 0
@@ -455,7 +424,7 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
---- !u!114 &512507081233149089
+--- !u!114 &-2514759945411157637
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -464,12 +433,49 @@ MonoBehaviour:
   m_GameObject: {fileID: 7707849826681258811}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65daa3a2624a4534ba28dcf6370feaf4, type: 3}
+  m_Script: {fileID: 11500000, guid: 16e3ed2baf712484c8afc99a204297b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  steamRange: 5
-  steamTimer: 0
-  steamRight: 0
+  attackRandom: 2
+  attackMinTime: 2
+  eliteAttackRandom: 1
+  eliteAttackMinTIme: 1
+  minAttackForce: 1000
+  maxAttackForce: 1400
+  eliteMinAttackForce: 1200
+  eliteMaxAttackForce: 1600
+  minHitForce: 500
+  maxHitForce: 1000
+  eliteMinHitForce: 1000
+  eliteMaxHitForce: 1500
+  gunMinDeltaY: 2
+  gunMaxDeltaY: 5
+  minFollowSpeed: 7
+  maxFollowSpeed: 15
+  speedDelta: 15
+  attackDeltaXVector: 1
+  followGunSpeed: 0
+  eliteFollowGunSpeed: 0
+  xSpeed: 10
+  eliteXSpeed: 20
+  speed: 15
+  maxDownSpeed: 4
+  hitSound: {fileID: 5351628849416257075}
+  dieSound: {fileID: 603482795474397358}
+  outlineColor: {r: 0.94509804, g: 0.79607844, b: 0.34901962, a: 1}
+--- !u!114 &3942780022577773549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7707849826681258811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e35d704ff87b2c4d901cf5491a5036c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateSpeed: 360
 --- !u!1001 &2405232544382055680
 PrefabInstance:
   m_ObjectHideFlags: 0

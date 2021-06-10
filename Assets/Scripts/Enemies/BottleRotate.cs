@@ -1,12 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class BottleRotate : MonoBehaviour
 {
     public int rotateSpeed = 360;
     private bool selfPlay = false;
-    private bool right = false;
+    public bool right = false;
 
     // Update is called once per frame
     void FixedUpdate()

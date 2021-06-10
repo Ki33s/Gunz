@@ -20,6 +20,7 @@ public class LevelElements : MonoBehaviour
     public GameObject[] aircoins;
     public GameObject[] washlines;
     public GameObject balcony;
+    public GameObject shop;
     public Material[] materials;
 
     public bool type3 = false;
@@ -45,8 +46,19 @@ public class LevelElements : MonoBehaviour
             else if(type3 && Random.Range(0, 100) < aircoinsGenProb + balconyGenProb)
             {
                 isBalcony = true;
-                GameObject newBalcony = Instantiate(balcony, transform.position, transform.rotation, transform);
-                newBalcony.transform.GetChild(0).GetComponent<Renderer>().material = materials[Random.Range(0, materials.Length)];
+
+                if (Random.Range(0, 100) < GameObject.Find("Bonus Generator").GetComponent<BonusGenerator>().eventGenProb)
+                {
+                    GameObject.Find("Bonus Generator").GetComponent<BonusGenerator>().eventGenProb = 0;
+                    Instantiate(shop, transform.position, transform.rotation, transform);
+                }
+                else
+                {
+                    GameObject newBalcony = Instantiate(balcony, transform.position, transform.rotation, transform);
+                    newBalcony.transform.GetChild(0).GetComponent<Renderer>().material = materials[Random.Range(0, materials.Length)];
+                }
+
+                
             }
 
             if(!isBalcony && Random.Range(0,100) < washLineGenProb)

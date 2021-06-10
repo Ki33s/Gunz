@@ -107,12 +107,12 @@ GameObject:
   - component: {fileID: 1910654296264135428}
   - component: {fileID: 1910654296264135429}
   - component: {fileID: 1910654296264135434}
-  - component: {fileID: 1910654296264135430}
   - component: {fileID: -1636433216553725449}
-  - component: {fileID: -266250538217683988}
   - component: {fileID: 3468846984250062004}
   - component: {fileID: 2408505476668332903}
   - component: {fileID: 258982330284705697}
+  - component: {fileID: 8887515505119442066}
+  - component: {fileID: 9114947747022425570}
   m_Layer: 0
   m_Name: Bat
   m_TagString: Enemy
@@ -198,35 +198,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1910654296264135430
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1910654296264135435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89cd32bf098916047a117f5588b67b0b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackRandom: 4
-  attackMinTime: 1
-  eliteAttackRandom: 2
-  eliteAttackMinTIme: 0.5
-  attackForce: 1000
-  eliteAttackForce: 1200
-  hitForce: 800
-  eliteHitForce: 1200
-  gunMinDeltaY: 3
-  gunMaxDeltaY: 6
-  speed: 15
-  maxDownSpeed: 5
-  attackDeltaXVector: 1
-  dieSound: {fileID: 2408505476668332903}
-  hitSound: {fileID: 3468846984250062004}
-  outlineColor: {r: 0.94509804, g: 0.79607844, b: 0.34901962, a: 1}
-  rotateSpeed: 360
 --- !u!54 &-1636433216553725449
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -236,28 +207,13 @@ Rigidbody:
   m_GameObject: {fileID: 1910654296264135435}
   serializedVersion: 2
   m_Mass: 1
-  m_Drag: 0
+  m_Drag: 1
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &-266250538217683988
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1910654296264135435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65daa3a2624a4534ba28dcf6370feaf4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  steamRange: 5
-  steamTimer: 0
-  steamRight: 0
 --- !u!82 &3468846984250062004
 AudioSource:
   m_ObjectHideFlags: 0
@@ -464,7 +420,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMode: 0
   outlineColor: {r: 0.94509804, g: 0.79607844, b: 0.34901962, a: 1}
-  outlineWidth: 4
+  outlineWidth: 2
   precomputeOutline: 1
   bakeKeys:
   - {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
@@ -690,6 +646,58 @@ MonoBehaviour:
     - {x: 0.42628005, y: 0.90459126, z: -0.000000015992525}
     - {x: 0.000000037315893, y: 0.90459126, z: 0.42628014}
     - {x: 0.3014255, y: 0.90459126, z: 0.3014255}
+--- !u!114 &8887515505119442066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1910654296264135435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16e3ed2baf712484c8afc99a204297b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackRandom: 2
+  attackMinTime: 2
+  eliteAttackRandom: 1
+  eliteAttackMinTIme: 1
+  minAttackForce: 1000
+  maxAttackForce: 1400
+  eliteMinAttackForce: 1100
+  eliteMaxAttackForce: 1500
+  minHitForce: 400
+  maxHitForce: 600
+  eliteMinHitForce: 700
+  eliteMaxHitForce: 1000
+  gunMinDeltaY: 2
+  gunMaxDeltaY: 5
+  minFollowSpeed: 7
+  maxFollowSpeed: 15
+  speedDelta: 15
+  attackDeltaXVector: 1
+  followGunSpeed: 0
+  eliteFollowGunSpeed: 0
+  xSpeed: 0
+  eliteXSpeed: 0
+  speed: 15
+  maxDownSpeed: 4
+  hitSound: {fileID: 3468846984250062004}
+  dieSound: {fileID: 2408505476668332903}
+  outlineColor: {r: 0.94509804, g: 0.79607844, b: 0.34901962, a: 1}
+--- !u!114 &9114947747022425570
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1910654296264135435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e35d704ff87b2c4d901cf5491a5036c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotateSpeed: 360
 --- !u!1001 &1910654296534394695
 PrefabInstance:
   m_ObjectHideFlags: 0

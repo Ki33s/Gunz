@@ -12,6 +12,10 @@ public class Bottles : MonoBehaviour
     public float gunMinDeltaY = 3;
     public float gunMaxDeltaY = 6;
 
+    public int minFollowSpeed = 7;
+    public int maxFollowSpeed = 15;
+    public float speedDelta = 15;
+
     public GameObject bottlesRotate;
 
     private float startTimer;
@@ -23,8 +27,12 @@ public class Bottles : MonoBehaviour
     private GameObject gun;
     private Rigidbody rig;
 
-    public float gunDeltaY;
+    private float followSpeed;
+
+    private float gunDeltaY;
     private bool elite = false;
+
+    private bool firstAttack = false;
 
     // Start is called before the first frame update
     void Start()
@@ -35,11 +43,6 @@ public class Bottles : MonoBehaviour
         {
             gun = tempgun;
         }
-
-        if (!elite)
-            startTimer = Random.value * attackRandom + attackMinTime;
-        else
-            startTimer = Random.value * eliteAttackRandom + eliteAttackMinTIme;
 
         RandomizeDeltaY();
     }
@@ -57,7 +60,11 @@ public class Bottles : MonoBehaviour
             else
             {
                 Follow();
-                CheckAttack();
+
+                if (!firstAttack)
+                    CheckFirstAttack();
+                else
+                    CheckAttack();
             }
         }
     }
@@ -71,11 +78,35 @@ public class Bottles : MonoBehaviour
     void RandomizeDeltaY()
     {
         gunDeltaY = Random.Range(gunMinDeltaY, gunMaxDeltaY);
+
+        followSpeed = Random.Range(minFollowSpeed, maxFollowSpeed);
+
+        if (!elite)
+        {
+            startTimer = Random.value * attackRandom + attackMinTime;
+        }
+        else
+        {
+            startTimer = Random.value * eliteAttackRandom + eliteAttackMinTIme;
+        }
     }
 
     void Follow()
     {
-        transform.position = new Vector3(transform.position.x, gun.transform.position.y - gunDeltaY, -3);
+        if (transform.position.y < gun.transform.position.y - gunDeltaY && followSpeed < maxFollowSpeed)
+            followSpeed += speedDelta * Time.deltaTime;
+        else if (followSpeed > -1)
+            followSpeed -= speedDelta * Time.deltaTime * 2;
+
+        rig.velocity = new Vector3(rig.velocity.x, followSpeed, 0);
+    }
+
+    void CheckFollow()
+    {
+        if (transform.position.y > gun.transform.position.y - 7)
+        {
+            followGun = true;
+        }
     }
 
     void StartFollow()
@@ -83,11 +114,11 @@ public class Bottles : MonoBehaviour
         rig.velocity = new Vector3(0, speed, 0);
     }
 
-    void CheckFollow()
+    void CheckFirstAttack()
     {
         if (transform.position.y > gun.transform.position.y - gunDeltaY)
         {
-            followGun = true;
+            firstAttack = true;
         }
     }
 
@@ -97,7 +128,7 @@ public class Bottles : MonoBehaviour
         {
             attackTimer += Time.deltaTime;
         }
-        else
+        else 
         {
             bottlesRotate.GetComponent<BottlesRotate>().gunDeltaY = gunDeltaY;
             bottlesRotate.GetComponent<BottlesRotate>().Attack();
@@ -114,9 +145,16 @@ public class Bottles : MonoBehaviour
 
     void OnTriggerEnter(Collider myTrigger)
     {
-        if (myTrigger.gameObject.tag == "Gun" && gun.GetComponent<Gun>().deathTaken)
+        if (myTrigger.gameObject.tag == "Gun" && gun.GetComponent<Gun>().skulls > 0)
+        {
+            Shooted();
+
+            gun.GetComponent<Gun>().skulls--;
+            gun.GetComponent<Gun>().skullArr[gun.GetComponent<Gun>().skulls].GetComponent<Death>().Hitted();
+        }
+        else if (myTrigger.gameObject.tag == "Gun" && gun.GetComponent<Gun>().lifeTaken)
         {
             Shooted();
         }
-    }
+   }
 }

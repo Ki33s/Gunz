@@ -13,6 +13,8 @@ TagManager:
   - RightWall
   - DestroyableEnemy
   - Boost
+  - ATM
+  - Exit
   layers:
   - Default
   - TransparentFX

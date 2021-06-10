@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   takeEffect: {fileID: 2603036454094693994, guid: 37c0abcb25af25843b496d686c197fea, type: 3}
-  radius: 8
+  radius: 7
 --- !u!114 &153900698769587745
 MonoBehaviour:
   m_ObjectHideFlags: 0

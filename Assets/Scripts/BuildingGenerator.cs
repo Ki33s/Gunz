@@ -6,6 +6,7 @@ public class BuildingGenerator : MonoBehaviour
 
     public float damping = 4f;
     public float dieGunY = 5f;
+    public int minCamUp = 1;
     public float CamDeltaY = 5f;
     public int floorsToGenerate = 10;
     public int levelDeltaY = 15;
@@ -32,6 +33,14 @@ public class BuildingGenerator : MonoBehaviour
     public GameObject rightWall;
 
     private int wallDeltaY = 12;
+
+    public bool isEvent = false;
+    public Vector3 eventCamPlace;
+
+    public int eventExitForce = 1500;
+
+    public GameObject lastEventEnter;
+
     void Start()
     {
         Application.targetFrameRate = 60;
@@ -45,8 +54,15 @@ public class BuildingGenerator : MonoBehaviour
     {
         if (gameStarted)
         {
-            FollowX();
-            CheckNewLevels();
+            if(!isEvent)
+            {
+                FollowX();
+                CheckNewLevels();
+            }
+            else
+            {
+                CheckEvent();
+            }
         }
 
     }
@@ -59,6 +75,43 @@ public class BuildingGenerator : MonoBehaviour
         }
 
         gameStarted = true;
+    }
+
+    void CheckEvent()
+    {
+        if (Mathf.Abs((transform.position - eventCamPlace).magnitude) > 0.1f)
+        {
+            transform.position = Vector3.Lerp(transform.position, eventCamPlace, Time.deltaTime * damping);
+        }
+
+        if (Input.GetMouseButtonDown(0) || Input.touchCount > 0)
+        {
+            RaycastHit hit;
+            Ray ray = GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit, 10))
+            {
+                if(hit.transform.tag == "ATM")
+                {
+                    hit.transform.GetComponent<ATM>().ItemBuy();
+                }
+                else if(hit.transform.tag == "Exit")
+                {
+                    ExitEvent();
+                }
+            }
+        }
+    }
+
+    public void ExitEvent()
+    {
+        lastEventEnter.GetComponent<EventEnter>().GunExit();
+        isEvent = false;
+        gun.GetComponent<Gun>().isEvent = false;
+        gun.GetComponent<Rigidbody>().useGravity = true;
+        gun.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1, 0) * eventExitForce, ForceMode.Force);
+
+
     }
 
     void LiftWalls()
@@ -82,7 +135,7 @@ public class BuildingGenerator : MonoBehaviour
     {
         foreach (GameObject gObject in FindObjectsOfType(typeof(GameObject)))
         {
-            if (gObject.transform.position.y < lastLevelY - 2 * levelDeltaY && gObject.tag != "GameSystem")
+            if (gObject.transform.position.y < lastLevelY - 2 * levelDeltaY && gObject.tag != "GameSystem" && gObject.tag != "Enemy")
                 Destroy(gObject);
         }
     }
@@ -99,18 +152,34 @@ public class BuildingGenerator : MonoBehaviour
     {
         if (gun.transform.position.y > CamLastY)
         {
-            transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, gun.transform.position.y + CamDeltaY, transform.position.z), damping * Time.deltaTime);
+            CamLastY = gun.transform.position.y;
             GameObject.Find("Main Camera").GetComponent<ScoreManager>().Distance = (int)CamLastY * 10;
             GameObject.Find("Main Camera").GetComponent<ScoreManager>().updateDistance();
         }
-        else if (gun.transform.position.y < transform.position.y - dieGunY)
+        else if (gun.transform.position.y < CamLastY - dieGunY)
         {
-            // gun.GetComponent<Gun>().Die();
-            SceneManager.LoadScene(0, LoadSceneMode.Single);
+            if(gun.GetComponent<Gun>().lifes > 0)
+            {
+                gun.GetComponent<Gun>().LoseHearth();
+                gun.GetComponent<Gun>().lifes--;
+                gun.GetComponent<Gun>().lifesArr[gun.GetComponent<Gun>().lifes].GetComponent<Heart>().Hitted();
+            }
+            else
+                SceneManager.LoadScene(0, LoadSceneMode.Single);
+        }
+        else
+        {
+            CamLastY += minCamUp * Time.deltaTime;
         }
 
+        float posZ = transform.position.z;
 
-        CamLastY = gun.transform.position.y;
+        if (posZ > -15)
+            posZ = -15;
+
+        transform.position = Vector3.Lerp(transform.position, new Vector3(transform.position.x, CamLastY + CamDeltaY, posZ), damping * Time.deltaTime);
+
+        
     }
 
     void GenerateLevel()

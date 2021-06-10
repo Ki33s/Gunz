@@ -6,20 +6,17 @@ public class FlashBonus : MonoBehaviour
 {
     public ParticleSystem takeEffect;
     public int radius = 5;
-    private bool dead = false;
 
     void OnTriggerEnter(Collider myTrigger)
     {
         if (myTrigger.gameObject.tag == "Gun")
         {
-            dead = true;
             Instantiate(takeEffect, transform.position, Quaternion.identity);
             Destroy(gameObject);
             CastFlash();
         }
         else if (myTrigger.gameObject.tag == "Enemy" || myTrigger.gameObject.tag == "DestroyableEnemy")
         {
-            dead = true;
             Instantiate(takeEffect, transform.position, Quaternion.identity);
             Destroy(gameObject);
         }
@@ -27,23 +24,25 @@ public class FlashBonus : MonoBehaviour
 
     void CastFlash()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
-        foreach (var hitCollider in hitColliders)
+        float flashY = transform.position.y;
+
+        foreach (GameObject bonus in GameObject.FindGameObjectsWithTag("Bonus"))
         {
-           if(hitCollider.tag == "Bonus")
-                hitCollider.SendMessage("Take");
+           if(Mathf.Abs(flashY - bonus.transform.position.y) < radius)
+                bonus.SendMessage("Take");
+
         }
+
+        // Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
+        //foreach (var hitCollider in hitColliders)
+        //{
+        //  if(hitCollider.tag == "Bonus")
+        //   hitCollider.SendMessage("Take");
+        //}
     }
 
     void Take()
     {
-        if(!dead)
-        {
-            dead = true;
-            Instantiate(takeEffect, transform.position, Quaternion.identity);
-            Destroy(gameObject);
-            CastFlash();
-        }
         
     }
 }

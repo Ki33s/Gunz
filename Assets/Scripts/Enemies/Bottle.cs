@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+
 using UnityEngine;
 
 public class Bottle : MonoBehaviour
@@ -12,12 +11,23 @@ public class Bottle : MonoBehaviour
     public float attackMinTime = 1f;
     public int eliteAttackRandom = 2;
     public float eliteAttackMinTIme = 0;
-    public int attackForce = 1000;
-    public int hitForce = 500;
-    public int eliteAttackForce = 1200;
-    public int eliteHitForce = 800;
+    public int minAttackForce = 500;
+    public int maxAttackForce = 1000;
+
+    public int eliteMinAttackForce = 1000;
+    public int eliteMaxAttackForce = 1500;
+
+    public int minHitForce = 500;
+    public int maxHitForce = 1000;
+
+    public int eliteMinHitForce = 1000;
+    public int eliteMaxHitForce = 1500;
     public int xSpeed = 3;
     public int eliteXSpeed = 4;
+
+    public int minFollowSpeed = 7;
+    public int maxFollowSpeed = 15;
+    public float speedDelta = 15;
 
     public float gunMinDeltaY = 3;
     public float gunMaxDeltaY = 6;
@@ -27,6 +37,7 @@ public class Bottle : MonoBehaviour
 
     private bool selfPlay = false;
 
+    private float followSpeed;
     private float startTimer;
     private float attackTimer = 0;
 
@@ -39,6 +50,10 @@ public class Bottle : MonoBehaviour
 
     private bool elite;
 
+    private float attackDelay = 0;
+
+    private float onAttackTimer = 0.5f;
+
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -47,13 +62,20 @@ public class Bottle : MonoBehaviour
             if (!attack)
             {
                 Follow();
-                CheckSpeed();
                 CheckAttack();
+            }
+            else if (onAttackTimer > 0)
+            {
+                onAttackTimer -= Time.deltaTime;
             }
             else
             {
+                CheckSpeed();
                 CheckNewFollow();
             }
+
+            if (attackDelay > 0)
+                attackDelay -= Time.deltaTime;
         }
     }
 
@@ -66,6 +88,16 @@ public class Bottle : MonoBehaviour
     void RandomizeDeltaY()
     {
         gunDeltaY = Random.Range(gunMinDeltaY, gunMaxDeltaY);
+        followSpeed = Random.Range(minFollowSpeed, maxFollowSpeed);
+
+        if (!elite)
+        {
+            startTimer = Random.value * attackRandom + attackMinTime;
+        }
+        else
+        {
+            startTimer = Random.value * eliteAttackRandom + eliteAttackMinTIme;
+        }
     }
 
     void CheckNewFollow()
@@ -73,6 +105,7 @@ public class Bottle : MonoBehaviour
         if (transform.position.y < gun.transform.position.y - gunDeltaY)
         {
             attack = false;
+            onAttackTimer = 0.5f;
         }
     }
 
@@ -81,23 +114,24 @@ public class Bottle : MonoBehaviour
         if (attackTimer < startTimer && !attack)
         {
             attackTimer += Time.deltaTime;
-            rig.velocity = new Vector3(0, 0, 0);
         }
         else if (!attack)
         {
-            if(!firstAttack)
-            {
+
+            if (!firstAttack)
                 firstAttack = true;
-            }
 
-            attack = true;
-            rig.AddForce(new Vector3(0, 1, 0) * attackForce, ForceMode.Force);
             attackTimer = 0;
-
-            if(!elite)
-                startTimer = Random.value * attackRandom + attackMinTime;
+            attack = true;
+            rig.velocity = new Vector3(rig.velocity.x, 0, 0);
+            if (!elite)
+            {
+                rig.AddForce(new Vector3(0, 1, 0) * Random.Range(minAttackForce, maxAttackForce), ForceMode.Force);
+            }
             else
-                startTimer = Random.value * eliteAttackRandom + eliteAttackMinTIme;
+            {
+                rig.AddForce(new Vector3(0, 1, 0) * Random.Range(eliteMinAttackForce, eliteMaxAttackForce), ForceMode.Force);
+            }
 
             RandomizeDeltaY();
         }
@@ -105,64 +139,65 @@ public class Bottle : MonoBehaviour
 
     void Follow()
     {
-        if(!firstAttack)
+        if (transform.position.y < gun.transform.position.y - gunDeltaY && followSpeed < maxFollowSpeed)
+            followSpeed += speedDelta * Time.deltaTime;
+        else if (followSpeed > -1)
+            followSpeed -= speedDelta * Time.deltaTime * 2;
+
+        float deltaXSpeed = 0;
+
+        if (!firstAttack)
         {
-            float nowXSpeed = 0;
-            int newXSpeed = xSpeed;
 
             if (elite)
-                newXSpeed = eliteXSpeed;
-
-            if(position == 0)
-            {
-                if(transform.position.x < -3)
-                {
-                    position = 2;
-                    nowXSpeed = newXSpeed * Time.deltaTime;
-                }
-                else
-                {
-                    nowXSpeed = -newXSpeed * Time.deltaTime;
-                }
-            }
-
+                deltaXSpeed = eliteXSpeed * Time.deltaTime;
 
             if (position == 2)
             {
-                if (transform.position.x > 3)
+                if (transform.position.x > 2)
                 {
                     position = 0;
-                    nowXSpeed = -newXSpeed * Time.deltaTime;
+                    rig.velocity = new Vector3(0, rig.velocity.y, 0);
                 }
                 else
                 {
-                    nowXSpeed = newXSpeed * Time.deltaTime;
+                    if (elite)
+                        deltaXSpeed = eliteXSpeed * Time.deltaTime;
+                    else
+                        deltaXSpeed = xSpeed * Time.deltaTime;
                 }
-            }
 
-            transform.position = new Vector3(transform.position.x + nowXSpeed, gun.transform.position.y - gunDeltaY, -3);
+            }
+            else if(position == 0)
+            {
+                if (transform.position.x < -3)
+                {
+                    position = 2;
+                    rig.velocity = new Vector3(0, rig.velocity.y, 0);
+                }
+                else
+                {
+                    if (elite)
+                        deltaXSpeed = -eliteXSpeed * Time.deltaTime;
+                    else
+                        deltaXSpeed = -xSpeed * Time.deltaTime;
+                }
+
+            }
         }
-        else
-            transform.position = new Vector3(transform.position.x, gun.transform.position.y - gunDeltaY, -3);
+
+        rig.velocity = new Vector3(rig.velocity.x + deltaXSpeed, followSpeed, 0);
     }
 
     void CheckSpeed()
     {
         if (rig.velocity.y < 0)
         {
-            float speed = rig.velocity.magnitude;
-
-            if (speed > maxDownSpeed)
+            if (rig.velocity.y < -maxDownSpeed)
             {
-
-                Vector3 v3Velocity = rig.velocity;
-                float vectorPerc = maxDownSpeed / speed;
-                Vector3 newVelocity = new Vector3(v3Velocity.x * vectorPerc, v3Velocity.y * vectorPerc, v3Velocity.z * vectorPerc);
-                rig.velocity = newVelocity;
+                rig.velocity = new Vector3(rig.velocity.x, -maxDownSpeed, 0);
             }
         }
-
-
     }
 
     public void Attack()
@@ -170,6 +205,7 @@ public class Bottle : MonoBehaviour
         transform.parent = null;
         rig = gameObject.AddComponent<Rigidbody>();
         rig.constraints = RigidbodyConstraints.FreezeRotation;
+        rig.drag = 1;
         transform.GetComponent<Collider>().enabled = true;
 
         foreach (GameObject tempgun in GameObject.FindGameObjectsWithTag("Gun"))
@@ -177,10 +213,16 @@ public class Bottle : MonoBehaviour
             gun = tempgun;
         }
 
-        if(!elite)
+        followSpeed = Random.Range(minFollowSpeed, maxFollowSpeed);
+
+        if (!elite)
+        {
             startTimer = Random.value * attackRandom + attackMinTime;
+        }
         else
+        {
             startTimer = Random.value * eliteAttackRandom + eliteAttackMinTIme;
+        }
 
         selfPlay = true;
 
@@ -196,25 +238,34 @@ public class Bottle : MonoBehaviour
         {
             hitSound.Play();
 
-            if (gun.GetComponent<Gun>().deathTaken)
+            if (gun.GetComponent<Gun>().skulls > 0)
+            {
+                Shooted();
+
+                gun.GetComponent<Gun>().skulls--;
+                gun.GetComponent<Gun>().skullArr[gun.GetComponent<Gun>().skulls].GetComponent<Death>().Hitted();
+            }
+            else if (gun.GetComponent<Gun>().lifeTaken)
             {
                 Shooted();
             }
-            else
+            else if (attackDelay <= 0)
             {
+                attackDelay = 1;
                 if (!elite)
                 {
-                    myTrigger.gameObject.GetComponent<Gun>().stun = true;
-                    myTrigger.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, -1, 0) * hitForce, ForceMode.Force);
+                    //myTrigger.gameObject.GetComponent<Gun>().stun = true;
+                    myTrigger.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, -1, 0) * Random.Range(minHitForce, maxHitForce), ForceMode.Force);
                 }
                 else
                 {
-                    myTrigger.gameObject.GetComponent<Gun>().eliteStun = true;
-                    myTrigger.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, -1, 0) * eliteHitForce, ForceMode.Force);
+                    //myTrigger.gameObject.GetComponent<Gun>().stun = true;
+                    myTrigger.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, -1, 0) * Random.Range(eliteMinHitForce, eliteMaxHitForce), ForceMode.Force);
                 }
             }
-           
-            
+
+
+
         }
     }
 

@@ -307,7 +307,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 187613060}
-  m_Material: {fileID: 13400000, guid: edab0ff7b1dbee4418dffdf004e81ff0, type: 2}
+  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -480,7 +480,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &589899478
 MonoBehaviour:
@@ -495,23 +495,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   panGenProb: 50
-  panPlusGenProb: 5
+  panPlusGenProb: 10
   elitePanGenProb: 200
   elitaPanPlusGenProb: 10
   batGenProb: 40
-  batPlusGenProb: 4
+  batPlusGenProb: 8
   eliteBatGenProb: 150
   elitaBatPlusGenProb: 8
-  axeGenProb: 5
-  axePlusGenProb: 3
+  axeGenProb: 3
+  axePlusGenProb: 6
   eliteAxeGenProb: 120
   elitaAxePlusGenProb: 6
   macheteGenProb: -3
-  machetePlusGenProb: 2
+  machetePlusGenProb: 5
   eliteMachetenGenProb: 100
   elitaMachetePlusGenProb: 5
-  bottlesGenProb: -4
-  bottlesPlusGenProb: 2
+  bottlesGenProb: -3
+  bottlesPlusGenProb: 4
   eliteBottlesGenProb: 80
   elitaBottlesPlusGenProb: 4
   pan: {fileID: 3469684336205326038, guid: 79e2a166fa7104a449a13f6c163ea0b6, type: 3}
@@ -519,8 +519,8 @@ MonoBehaviour:
   pickaxe: {fileID: 1043430557233423634, guid: 317fc190230ea3a46bdd7548369c2e00, type: 3}
   machete: {fileID: 7707849826681258811, guid: 9c7271bfdcf811244902284c83e9f5b6, type: 3}
   bottles: {fileID: 5590852087672107700, guid: 330d60bc93666734098b92fd4a4df506, type: 3}
-  levelBonusGenProb: 15
-  newBonusGenProb: 30
+  levelBonusGenProb: 10
+  newBonusGenProb: 20
   ammoGenProb: 25
   boostGenProb: 5
   grenadeGenProb: 2
@@ -528,16 +528,22 @@ MonoBehaviour:
   silverCoiGenProb: 10
   goldCoinGenProb: 5
   deathGenProb: 2
+  hearthGenProb: 1
+  magnetGenProb: 1
   Coin: {fileID: 5312731379193395238, guid: f115ec7e7d831364bbc891c294b30520, type: 3}
   Ammo: {fileID: 6469930406476255092, guid: 463fe3411eebfe646a42c00651953c1f, type: 3}
   Boost: {fileID: 6095576861964652182, guid: 76bbf50ff58f37147b4f6bcf16111489, type: 3}
   Grenade: {fileID: 5117228952362285690, guid: d59229e65e661b04e9cb000c0356ba2e, type: 3}
   Flash: {fileID: 917237869810121622, guid: 17ccd7d456e157a45acdb9ae10d30ac7, type: 3}
   Death: {fileID: 7703112663318183955, guid: 870c8ca92bc571d45a0855e39fbb59ed, type: 3}
+  Heart: {fileID: 8131579496358113612, guid: 9880a76dd397c8445a7640a5baad15f2, type: 3}
+  Magnet: {fileID: 848560295079676044, guid: d3f98fe434cb6944785e283d4cb032c5, type: 3}
   coinMaterials:
   - {fileID: 2100000, guid: 302019bf775c8c64f9e9480fef5fb95c, type: 2}
   - {fileID: 2100000, guid: 2658a13c3156a6e46aa2d7d515c5343a, type: 2}
   - {fileID: 2100000, guid: 42c97f61d7c845448b24c911704d7fd5, type: 2}
+  eventGenProb: 50
+  eventDelta: 50
 --- !u!1 &764810099
 GameObject:
   m_ObjectHideFlags: 0
@@ -721,6 +727,7 @@ GameObject:
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
+  - component: {fileID: 963194231}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -806,7 +813,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damping: 3
-  dieGunY: 8
+  dieGunY: 7
+  minCamUp: 1
   CamDeltaY: 2
   floorsToGenerate: 1
   levelDeltaY: 15
@@ -832,6 +840,10 @@ MonoBehaviour:
   - {fileID: 2100000, guid: bb694a94be4a3c64ca9ef44c62415782, type: 2}
   leftWall: {fileID: 187613060}
   rightWall: {fileID: 764810099}
+  isEvent: 0
+  eventCamPlace: {x: 0, y: 0, z: 0}
+  eventExitForce: 1500
+  lastEventEnter: {fileID: 0}
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -845,13 +857,109 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinsUI: {fileID: 170520290}
-  Coins: 0
+  Coins: 100
   crossUI: {fileID: 1833654262}
   Kills: 0
   ammoUI: {fileID: 1850178604}
   Ammo: 0
   distanceUI: {fileID: 30866695}
   Distance: 0
+--- !u!82 &963194231
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 3a66283f873931c4195ad52f8672a765, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1119348791
 GameObject:
   m_ObjectHideFlags: 0
@@ -943,7 +1051,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1001 &1166210380
 PrefabInstance:
@@ -962,7 +1070,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 491618, guid: c2c402e99a56ad749b560bee7cdc6b2a, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 491618, guid: c2c402e99a56ad749b560bee7cdc6b2a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1031,7 +1139,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 22451668, guid: 0abab5bb77339e4428787a870eb31bd3, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 22451668, guid: 0abab5bb77339e4428787a870eb31bd3, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1195,7 +1303,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4347308012205927567, guid: 8cf0cbc1fa95ff041a15f91d11187ca7, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4347308012205927567, guid: 8cf0cbc1fa95ff041a15f91d11187ca7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1255,13 +1363,14 @@ GameObject:
   - component: {fileID: 1664555591}
   - component: {fileID: 1664555590}
   - component: {fileID: 1664555589}
+  - component: {fileID: 1664555593}
   m_Layer: 0
   m_Name: FloorCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &1664555589
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1270,7 +1379,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1664555588}
   m_Material: {fileID: 13400000, guid: 0a1ce021a7926e041bbf38d41b71e294, type: 2}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -1338,6 +1447,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1664555593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664555588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93f3b9f10c068ee43a5b8d997537e561, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1789060291
 GameObject:
   m_ObjectHideFlags: 0
@@ -1402,7 +1523,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1833654260
 GameObject:
@@ -1662,7 +1783,7 @@ RectTransform:
   - {fileID: 821185256}
   - {fileID: 1833654261}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1754,6 +1875,10 @@ PrefabInstance:
     - target: {fileID: 1418350854624709363, guid: b050ed27aaeff4145aacf41baa5a0dbd, type: 3}
       propertyPath: m_Name
       value: Character_ToplessMale_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1418350854624709363, guid: b050ed27aaeff4145aacf41baa5a0dbd, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1422097103019346003, guid: b050ed27aaeff4145aacf41baa5a0dbd, type: 3}
       propertyPath: m_RootOrder

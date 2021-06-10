@@ -40,7 +40,8 @@ public class BonusGenerator : MonoBehaviour
     public int silverCoiGenProb = 10;
     public int goldCoinGenProb = 5;
     public int deathGenProb = 1;
-
+    public int hearthGenProb = 1;
+    public int magnetGenProb = 1;
 
 
     public GameObject Coin;
@@ -49,6 +50,8 @@ public class BonusGenerator : MonoBehaviour
     public GameObject Grenade;
     public GameObject Flash;
     public GameObject Death;
+    public GameObject Heart;
+    public GameObject Magnet;
 
     public Material[] coinMaterials;
 
@@ -60,6 +63,9 @@ public class BonusGenerator : MonoBehaviour
     private int enemyDeltaY = 10;
     private int enemySpawnLastUpdateY = 100;
     private int enemySpawnDeltaY = 100;
+
+    public int eventGenProb = 0;
+    public int eventDelta = 10;
     // Update is called once per frame
     void FixedUpdate()
     {
@@ -107,7 +113,7 @@ public class BonusGenerator : MonoBehaviour
 
             if (Random.Range(0, 1000) < elitePanGenProb)
             {
-                enemy.GetComponent<Pan>().Elite();
+                enemy.GetComponent<Enemy>().Elite();
                 elitePanGenProb -= elitaPanPlusGenProb;
             } 
         }
@@ -118,10 +124,9 @@ public class BonusGenerator : MonoBehaviour
 
             if (Random.Range(0, 1000) < eliteBatGenProb)
             {
-                enemy.GetComponent<Bat>().Elite();
+                enemy.GetComponent<Enemy>().Elite();
                 eliteBatGenProb -= elitaBatPlusGenProb;
             }
-               
         }
         else if (randNum < panGenProb + batGenProb + axeGenProb)
         {
@@ -130,19 +135,18 @@ public class BonusGenerator : MonoBehaviour
 
             if (Random.Range(0, 1000) < eliteAxeGenProb)
             {
-                enemy.GetComponent<PickAxe>().Elite();
+                enemy.GetComponent<Enemy>().Elite();
                 eliteAxeGenProb -= elitaAxePlusGenProb;
             }
-                
         }
         else if (randNum < panGenProb + batGenProb + axeGenProb + macheteGenProb)
         {
             GameObject enemy = Instantiate(machete, new Vector3(Random.Range(0, 5) - 2, maxPosY - enemyDeltaY - deltaY, -3), Quaternion.identity);
             macheteGenProb -= machetePlusGenProb;
 
-            if (Random.Range(0, 1000) < eliteMachetenGenProb)
+            if (Random.Range(0, 1000) < eliteAxeGenProb)
             {
-                enemy.GetComponent<Machete>().Elite();
+                enemy.GetComponent<Enemy>().Elite();
                 eliteMachetenGenProb -= elitaMachetePlusGenProb;
             }
         }
@@ -157,6 +161,7 @@ public class BonusGenerator : MonoBehaviour
                 eliteBottlesGenProb -= elitaBottlesPlusGenProb;
             }
         }
+
 
 
     }
@@ -178,6 +183,8 @@ public class BonusGenerator : MonoBehaviour
             eliteAxeGenProb += elitaAxePlusGenProb;
             eliteMachetenGenProb += elitaMachetePlusGenProb;
             eliteBottlesGenProb += elitaBottlesPlusGenProb;
+
+            eventGenProb += eventDelta;
         }
     }
 
@@ -283,6 +290,14 @@ public class BonusGenerator : MonoBehaviour
         else if (randNum < ammoGenProb + grenadeGenProb + flashGenProb + silverCoiGenProb + goldCoinGenProb + deathGenProb)
         {
             Instantiate(Death, new Vector3(coinX, coinY, -3), Quaternion.identity);
+        }
+        else if (randNum < ammoGenProb + grenadeGenProb + flashGenProb + silverCoiGenProb + goldCoinGenProb + deathGenProb + hearthGenProb)
+        {
+            Instantiate(Heart, new Vector3(coinX, coinY, -3), Quaternion.identity);
+        }
+        else if (randNum < ammoGenProb + grenadeGenProb + flashGenProb + silverCoiGenProb + goldCoinGenProb + deathGenProb + hearthGenProb + magnetGenProb)
+        {
+            Instantiate(Magnet, new Vector3(coinX, coinY, -3), Quaternion.identity);
         }
         else
         {

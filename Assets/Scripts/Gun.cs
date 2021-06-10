@@ -5,13 +5,20 @@ using UnityEngine;
 public class Gun : MonoBehaviour
 {
     public GameObject gunRotZ;
+    public GameObject trunk;
+    public Material redDotMaterial;
 
     public AudioSource shootSound;
     public AudioSource reloadSound;
+    public AudioSource looseLife;
+    public AudioSource takeItem;
     public ParticleSystem shotEffect;
+    public ParticleSystem takeItemEffect;
+    public GameObject boostStrikerBonus;
     public int maxAmmo = 15;
     private int ammo = 15;
     public int force = 500;
+    public int newLifeForce = 2000;
     public int maxSpeed = 17;
     public int maxDownSpeed = 5;
     public int rotateSpeed = 360;
@@ -25,38 +32,81 @@ public class Gun : MonoBehaviour
     public bool eliteStun = false;
     private bool rotRight = false;
 
-    public bool deathTaken = false;
-    private float deathTimer;
+    public int maxLifes = 2;
+    public int lifes = 0;
+    public GameObject[] lifesArr = new GameObject[3];
+
+    public int maxSkulls = 3;
+    public int skulls = 0;
+    public GameObject[] skullArr = new GameObject[3];
+   
+
+    public bool lifeTaken = false;
+    private float lifeTimer;
 
     private Rigidbody rig;
+
+    public bool isEvent = false;
+
+    public int[] allItems = new int[10];
+
+    private int boostStrikerProb;
+
+    private LineRenderer lr;
+
+    private float randItemRecoilTime;
     // Start is called before the first frame update
     void Start()
     {
         ammo = maxAmmo;
         rig = gameObject.GetComponent<Rigidbody>();
         ChangeRotate();
+        randItemRecoilTime = recoil_time;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        CheckShoot();
-        CheckRecoil();
-        Rotate();
-        CheckSpeed();
+        if(!isEvent)
+        {
+            CheckShoot();
+            Rotate();
+            CheckRecoil();
+            CheckSpeed();
+        }
+        
 
-        if (deathTaken)
+        if (lifeTaken)
             CheckDeathTimer();
+
+        if (allItems[2] > 0)
+            LaserDot();
     }
 
+    void LaserDot()
+    {
+        lr.SetPosition(0, trunk.transform.position);
+        RaycastHit hit;
+
+        if(Physics.Raycast(trunk.transform.position, transform.forward, out hit))
+        {
+            if(hit.collider)
+            {
+                lr.SetPosition(1, hit.point);
+            }
+            else
+            {
+                lr.SetPosition(1, transform.forward*10);
+            }
+        }
+    }
     void CheckDeathTimer()
     {
-        if (deathTimer > 0)
-            deathTimer -= Time.deltaTime;
+        if (lifeTimer > 0)
+            lifeTimer -= Time.deltaTime;
         else
-            deathTaken = false;
+            lifeTaken = false;
     }
-
     void CheckShoot()
     {
         if ((Input.GetKey("space") || Input.touchCount > 0) && !recoil && ammo > 0)
@@ -109,13 +159,26 @@ public class Gun : MonoBehaviour
                     hit.transform.GetComponent<Aircoin>().Shooted();
                 }
             }
+
+            //BoostStriker
+            if(allItems[1]>0)
+            {
+                if(Random.Range(0,100) < boostStrikerProb)
+                {
+                  Instantiate(boostStrikerBonus, transform.position, Quaternion.identity);
+                }
+            }
         }
     }
 
-    public void TakeDeath()
+    public void LoseHearth()
     {
-        deathTimer = 10f;
-        deathTaken = true;
+        lifeTimer = 1f;
+        lifeTaken = true;
+
+        looseLife.Play();
+        RefillAmmo();
+        rig.AddForce(new Vector3(0, 1, 0) * newLifeForce, ForceMode.Force);
     }
 
     public void RefillAmmo()
@@ -162,8 +225,17 @@ public class Gun : MonoBehaviour
     void Rotate()
     {
         float nowRotateSpeed = rotateSpeed;
+        float angleX = transform.eulerAngles.x;
+        float k;
 
-        if (stun)
+        if (angleX < 180)
+            k = Mathf.Abs(angleX - 90) / 360 + 0.75f;
+        else
+            k = 1.25f - Mathf.Abs(angleX - 270)/360;
+
+        nowRotateSpeed *= k;
+
+            if (stun)
             nowRotateSpeed = nowRotateSpeed * stunForce;
         else if (eliteStun)
             nowRotateSpeed = nowRotateSpeed * eliteStunForce;
@@ -188,5 +260,68 @@ public class Gun : MonoBehaviour
                 recoil = false;
             }
         }
+    }
+
+    public void TakeItem(int itemID)
+    {
+        switch(itemID)
+        {
+            case 0:
+                TakeMagazine();
+                allItems[0]++;
+                break;
+
+            case 1:
+                TakeBoostStriker();
+                allItems[1]++;
+                break;
+
+            case 2:
+                TakeRedDot();
+                allItems[2]++;
+                break;
+            case 3:
+                TakeBigBullet();
+                allItems[3]++;
+                break;
+            case 4:
+                TakeHandle();
+                allItems[4]++;
+                break;
+        }
+    }
+
+    private void TakeMagazine()
+    {
+        maxAmmo += (int)(maxAmmo / 3);
+        RefillAmmo();
+    }
+
+    private void TakeBoostStriker()
+    {
+        boostStrikerProb = (int)(40 * randItemRecoilTime);
+    }
+
+    private void TakeRedDot()
+    {
+       lr =  gameObject.AddComponent<LineRenderer>();
+        lr.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        lr.receiveShadows = false;
+        lr.material = redDotMaterial;
+        lr.startWidth = 0.03f;
+        lr.endWidth = 0.03f;
+    }
+
+    private void TakeBigBullet()
+    {
+        force += (int)(force / 3);
+        maxSpeed += (int)(maxSpeed / 3);
+    }
+
+    private void TakeHandle()
+    {
+        rotateSpeed += (int)(rotateSpeed / 3);
+        recoil_time += (int)(recoil_time / 3);
+        gunRotZ.GetComponent<GunZRotate>().rotateSpeed += (int)(gunRotZ.GetComponent<GunZRotate>().rotateSpeed / 3);
     }
 }
