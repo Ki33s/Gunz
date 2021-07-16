@@ -44,6 +44,9 @@ public class Bottles : MonoBehaviour
             gun = tempgun;
         }
 
+        speed = gun.GetComponent<Gun>().maxSpeed;
+        maxFollowSpeed = gun.GetComponent<Gun>().maxSpeed - 2;
+
         RandomizeDeltaY();
     }
 
@@ -145,7 +148,12 @@ public class Bottles : MonoBehaviour
 
     void OnTriggerEnter(Collider myTrigger)
     {
-        if (myTrigger.gameObject.tag == "Gun" && gun.GetComponent<Gun>().skulls > 0)
+        if (gun.GetComponent<Gun>().allItems[11] && Random.Range(0, 100) < gun.GetComponent<Gun>().thornsHelpProb) //CheckThorns
+        {
+            Shooted();
+            gun.GetComponent<Gun>().Rocks();
+        }
+        else if (myTrigger.gameObject.tag == "Gun" && gun.GetComponent<Gun>().skulls > 0)
         {
             Shooted();
 

@@ -11,11 +11,16 @@ public class Bottle : MonoBehaviour
     public float attackMinTime = 1f;
     public int eliteAttackRandom = 2;
     public float eliteAttackMinTIme = 0;
+
     public int minAttackForce = 500;
     public int maxAttackForce = 1000;
+    public int deltaAttackForce = 500;
+    public float gunAttackForceCoef = 1.5f;
 
     public int eliteMinAttackForce = 1000;
     public int eliteMaxAttackForce = 1500;
+    public int eliteDeltaAttackForce = 500;
+    public float eliteGunAttackForceCoef = 1.5f;
 
     public int minHitForce = 500;
     public int maxHitForce = 1000;
@@ -126,11 +131,11 @@ public class Bottle : MonoBehaviour
             rig.velocity = new Vector3(rig.velocity.x, 0, 0);
             if (!elite)
             {
-                rig.AddForce(new Vector3(0, 1, 0) * Random.Range(minAttackForce, maxAttackForce), ForceMode.Force);
+                rig.AddForce(new Vector3(0, 1, 0) * Random.Range(minAttackForce, minAttackForce + deltaAttackForce), ForceMode.Force);
             }
             else
             {
-                rig.AddForce(new Vector3(0, 1, 0) * Random.Range(eliteMinAttackForce, eliteMaxAttackForce), ForceMode.Force);
+                rig.AddForce(new Vector3(0, 1, 0) * Random.Range(eliteMinAttackForce, eliteMinAttackForce + eliteDeltaAttackForce), ForceMode.Force);
             }
 
             RandomizeDeltaY();
@@ -213,7 +218,14 @@ public class Bottle : MonoBehaviour
             gun = tempgun;
         }
 
+        maxFollowSpeed = gun.GetComponent<Gun>().maxSpeed - 2;
+
         followSpeed = Random.Range(minFollowSpeed, maxFollowSpeed);
+
+        minAttackForce = (int)(gun.GetComponent<Gun>().force * gunAttackForceCoef);
+
+        if (elite)
+            eliteAttackMinTIme = (int)(gun.GetComponent<Gun>().force * eliteGunAttackForceCoef);
 
         if (!elite)
         {
@@ -238,30 +250,45 @@ public class Bottle : MonoBehaviour
         {
             hitSound.Play();
 
-            if (gun.GetComponent<Gun>().skulls > 0)
+            if (gun.GetComponent<Gun>().isEvent)
+            {
+                //CheckEvent
+            }
+            else if (gun.GetComponent<Gun>().allItems[11] && Random.Range(0, 100) < gun.GetComponent<Gun>().thornsHelpProb) //CheckThorns
+            {
+                Shooted();
+                gun.GetComponent<Gun>().Rocks();
+            }
+            else if (gun.GetComponent<Gun>().lifeTaken)
+            {
+                Shooted();
+            }
+            else if (gun.GetComponent<Gun>().shopExit)
+            {
+                //CheckShopExit
+            }
+            else if (gun.GetComponent<Gun>().skulls > 0)
             {
                 Shooted();
 
                 gun.GetComponent<Gun>().skulls--;
                 gun.GetComponent<Gun>().skullArr[gun.GetComponent<Gun>().skulls].GetComponent<Death>().Hitted();
             }
-            else if (gun.GetComponent<Gun>().lifeTaken)
-            {
-                Shooted();
-            }
             else if (attackDelay <= 0)
             {
-                attackDelay = 1;
+                int nowForce;
+
                 if (!elite)
-                {
-                    //myTrigger.gameObject.GetComponent<Gun>().stun = true;
-                    myTrigger.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, -1, 0) * Random.Range(minHitForce, maxHitForce), ForceMode.Force);
-                }
+                    nowForce = Random.Range(minHitForce, maxHitForce);
                 else
-                {
-                    //myTrigger.gameObject.GetComponent<Gun>().stun = true;
-                    myTrigger.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, -1, 0) * Random.Range(eliteMinHitForce, eliteMaxHitForce), ForceMode.Force);
-                }
+                    nowForce = Random.Range(eliteMinHitForce, eliteMaxHitForce);
+
+                //CheckThorns
+                if (gun.GetComponent<Gun>().allItems[14])
+                    nowForce /= 2;
+
+                attackDelay = 1;
+                    myTrigger.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, -1, 0) * nowForce, ForceMode.Force);
             }
 
 

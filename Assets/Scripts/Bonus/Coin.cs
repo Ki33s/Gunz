@@ -32,7 +32,7 @@ public class Coin : MonoBehaviour
     {
         if (!dead)
         {
-            if (myTrigger.gameObject.tag == "Gun")
+            if (myTrigger.gameObject.tag == "Gun" || myTrigger.gameObject.tag == "Duplicate")
             {
                 takeCoin.Play();
                 GameObject.Find("Main Camera").GetComponent<ScoreManager>().Coins+= coins;

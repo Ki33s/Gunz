@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -12,9 +10,13 @@ public class Enemy : MonoBehaviour
 
     public int minAttackForce = 500;
     public int maxAttackForce = 1000;
+    public int deltaAttackForce = 500;
+    public float gunAttackForceCoef = 1.5f;
 
     public int eliteMinAttackForce = 1000;
     public int eliteMaxAttackForce = 1500;
+    public int eliteDeltaAttackForce = 500;
+    public float eliteGunAttackForceCoef = 1.5f;
 
     public int minHitForce = 500;
     public int maxHitForce = 1000;
@@ -63,6 +65,7 @@ public class Enemy : MonoBehaviour
     private float attackDelay = 0;
 
     private bool xRight = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -72,6 +75,14 @@ public class Enemy : MonoBehaviour
         {
             gun = tempgun;
         }
+
+        speed = gun.GetComponent<Gun>().maxSpeed;
+        maxFollowSpeed = gun.GetComponent<Gun>().maxSpeed - 2;
+
+        minAttackForce = (int)(gun.GetComponent<Gun>().force * gunAttackForceCoef);
+
+        if(elite)
+            eliteAttackMinTIme = (int)(gun.GetComponent<Gun>().force * eliteGunAttackForceCoef);
 
         RandomizeDeltaY();
 
@@ -159,11 +170,11 @@ public class Enemy : MonoBehaviour
 
             if (!elite)
             {
-                rig.AddForce(new Vector3(DeltaXVector, 1, 0) * Random.Range(minAttackForce, maxAttackForce), ForceMode.Force);
+                rig.AddForce(new Vector3(DeltaXVector, 1, 0) * Random.Range(minAttackForce, minAttackForce + deltaAttackForce), ForceMode.Force);
             }
             else
             {
-                rig.AddForce(new Vector3(DeltaXVector, 1, 0) * Random.Range(eliteMinAttackForce, eliteMaxAttackForce), ForceMode.Force);
+                rig.AddForce(new Vector3(DeltaXVector, 1, 0) * Random.Range(eliteMinAttackForce, eliteMinAttackForce + eliteDeltaAttackForce), ForceMode.Force);
             }
             RandomizeDeltaY();
         }
@@ -280,6 +291,9 @@ public class Enemy : MonoBehaviour
             {
                 dead = true;
                 Destroy(GetComponent<Outline>());
+                rig.AddForce(new Vector3(0, 0, Random.Range(-1f, 1f)) * 400, ForceMode.Force);
+                rig.freezeRotation = false;
+                rig.AddTorque(new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f)) * 400, ForceMode.Force);
             }
             else
             {
@@ -315,34 +329,51 @@ public class Enemy : MonoBehaviour
         {
             hitSound.Play();
 
-            if (gun.GetComponent<Gun>().skulls > 0)
+            if (gun.GetComponent<Gun>().isEvent)
+            {
+                //CheckEvent
+            }
+            else if (gun.GetComponent<Gun>().allItems[11] && Random.Range(0,100) < gun.GetComponent<Gun>().thornsHelpProb) //CheckRocks
+            {
+                Shooted();
+                gun.GetComponent<Gun>().Rocks();
+            }
+            else if(gun.GetComponent<Gun>().lifeTaken) // Check if just life spent
+            {
+                Shooted();
+            }
+            else if (gun.GetComponent<Gun>().shopExit)
+            {
+                //CheckShopExit
+            }
+            else if (gun.GetComponent<Gun>().skulls > 0) //Check Skulls
             {
                 Shooted();
 
-              gun.GetComponent<Gun>().skulls--;
-              gun.GetComponent<Gun>().skullArr[gun.GetComponent<Gun>().skulls].GetComponent<Death>().Hitted();
-            }
-            else if(gun.GetComponent<Gun>().lifeTaken)
-            {
-                Shooted();
+                gun.GetComponent<Gun>().skulls--;
+                gun.GetComponent<Gun>().skullArr[gun.GetComponent<Gun>().skulls].GetComponent<Death>().Hitted();
             }
             else if(attackDelay <= 0)
             {
-                attackDelay = 1;
+                int nowForce;
+
                 if (!elite)
-                {
-                    //myTrigger.gameObject.GetComponent<Gun>().stun = true;
-                    myTrigger.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, -1, 0) * Random.Range(minHitForce,maxHitForce), ForceMode.Force);
-                }
+                    nowForce = Random.Range(minHitForce, maxHitForce);
                 else
-                {
+                    nowForce = Random.Range(eliteMinHitForce, eliteMaxHitForce);
+
+                //CheckThorns
+                if (gun.GetComponent<Gun>().allItems[14])
+                    nowForce /= 2;
+
+                    attackDelay = 1;
                     //myTrigger.gameObject.GetComponent<Gun>().stun = true;
-                    myTrigger.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, -1, 0) * Random.Range(eliteMinHitForce, eliteMaxHitForce), ForceMode.Force);
-                }
+                    myTrigger.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, -1, 0) * nowForce, ForceMode.Force);
             }
-
-
-
+        }
+        else if(myTrigger.gameObject.tag == "Aircoin" || myTrigger.gameObject.tag == "Satelite")
+        {
+            myTrigger.SendMessage("Shooted");
         }
     }
 }

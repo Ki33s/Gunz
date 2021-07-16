@@ -9,7 +9,7 @@ public class FlashBonus : MonoBehaviour
 
     void OnTriggerEnter(Collider myTrigger)
     {
-        if (myTrigger.gameObject.tag == "Gun")
+        if (myTrigger.gameObject.tag == "Gun" || myTrigger.gameObject.tag == "Duplicate")
         {
             Instantiate(takeEffect, transform.position, Quaternion.identity);
             Destroy(gameObject);
@@ -24,21 +24,12 @@ public class FlashBonus : MonoBehaviour
 
     void CastFlash()
     {
-        float flashY = transform.position.y;
-
-        foreach (GameObject bonus in GameObject.FindGameObjectsWithTag("Bonus"))
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
+        foreach (var hitCollider in hitColliders)
         {
-           if(Mathf.Abs(flashY - bonus.transform.position.y) < radius)
-                bonus.SendMessage("Take");
-
+          if(hitCollider.tag == "Bonus")
+            hitCollider.SendMessage("Take");
         }
-
-        // Collider[] hitColliders = Physics.OverlapSphere(transform.position, radius);
-        //foreach (var hitCollider in hitColliders)
-        //{
-        //  if(hitCollider.tag == "Bonus")
-        //   hitCollider.SendMessage("Take");
-        //}
     }
 
     void Take()

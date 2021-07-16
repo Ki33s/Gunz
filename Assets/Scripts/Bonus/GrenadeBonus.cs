@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GrenadeBonus : MonoBehaviour
@@ -9,7 +7,7 @@ public class GrenadeBonus : MonoBehaviour
     public int hitForce = 500;
     void OnTriggerEnter(Collider myTrigger)
     {
-        if (myTrigger.gameObject.tag == "Gun")
+        if (myTrigger.gameObject.tag == "Gun" || myTrigger.gameObject.tag == "Duplicate")
         {
             Instantiate(takeEffect, transform.position, Quaternion.identity);
             CastFlash();
@@ -31,13 +29,16 @@ public class GrenadeBonus : MonoBehaviour
             {
                 hitCollider.SendMessage("Shooted");
                 Vector3 heading = hitCollider.transform.position - transform.position;
-                hitCollider.GetComponent<Rigidbody>().AddForce(heading.normalized * hitForce, ForceMode.Force);
+                if(hitCollider.tag == "Enemy")
+                    hitCollider.GetComponent<Rigidbody>().AddForce(heading.normalized * hitForce, ForceMode.Force);
 
                 GameObject.Find("Main Camera").GetComponent<ScoreManager>().Kills++;
                 GameObject.Find("Main Camera").GetComponent<ScoreManager>().updateKills();
             }
             else if (hitCollider.tag == "Aircoin")
                 hitCollider.transform.GetComponent<Aircoin>().Shooted();
+            else if (hitCollider.tag == "Satelite")
+                hitCollider.transform.GetComponent<Satelite>().Shooted();
         }
 
     }

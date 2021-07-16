@@ -15,6 +15,11 @@ TagManager:
   - Boost
   - ATM
   - Exit
+  - Satelite
+  - MidWall
+  - Bullet
+  - ShopBonus
+  - Duplicate
   layers:
   - Default
   - TransparentFX

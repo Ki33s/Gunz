@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8131579496358113615}
   - component: {fileID: 4412807058457658661}
   - component: {fileID: 3415851806764604622}
+  - component: {fileID: 4125109077560513911}
   m_Layer: 0
   m_Name: Life
   m_TagString: Bonus
@@ -208,6 +209,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4125109077560513911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8131579496358113612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34604063b83ffcd4196f3066df73b1e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lighted: 0
+  ricosheted: 0
 --- !u!114 &8131579497253753432
 MonoBehaviour:
   m_ObjectHideFlags: 0

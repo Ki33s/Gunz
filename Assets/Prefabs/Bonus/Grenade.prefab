@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 8090284690011462102}
   - component: {fileID: 3112118783473403378}
   - component: {fileID: 4106503900721226218}
+  - component: {fileID: 3791665267597766060}
   m_Layer: 0
   m_Name: Grenade
   m_TagString: Bonus
@@ -123,7 +124,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   takeEffect: {fileID: 5888006101527702606, guid: 69ee360e8b5b9694b997293d5667b1d4, type: 3}
-  radius: 5
+  radius: 4
+  hitForce: 500
+--- !u!114 &3791665267597766060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5117228952362285690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34604063b83ffcd4196f3066df73b1e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lighted: 0
+  ricosheted: 0
 --- !u!1001 &1843773565697762353
 PrefabInstance:
   m_ObjectHideFlags: 0

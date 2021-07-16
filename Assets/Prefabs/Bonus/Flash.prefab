@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6584232459622884751}
   - component: {fileID: 2838240812793427262}
   - component: {fileID: 7912449791112166466}
+  - component: {fileID: 3538123285396931487}
   m_Layer: 0
   m_Name: Flash
   m_TagString: Bonus
@@ -110,7 +111,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   takeEffect: {fileID: 2603036454094693994, guid: 37c0abcb25af25843b496d686c197fea, type: 3}
-  radius: 7
+  radius: 6
+--- !u!114 &3538123285396931487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 917237869810121622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34604063b83ffcd4196f3066df73b1e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lighted: 0
+  ricosheted: 0
 --- !u!114 &153900698769587745
 MonoBehaviour:
   m_ObjectHideFlags: 0

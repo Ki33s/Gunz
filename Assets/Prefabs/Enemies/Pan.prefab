@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 4554520831075687756}
   - component: {fileID: 878756450497160624}
   - component: {fileID: -2561515053189001895}
+  - component: {fileID: 4497534423185966698}
   m_Layer: 0
   m_Name: Pan
   m_TagString: Enemy
@@ -823,13 +824,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRandom: 2
-  attackMinTime: 2
+  attackMinTime: 1
   eliteAttackRandom: 1
   eliteAttackMinTIme: 1
   minAttackForce: 1100
   maxAttackForce: 1400
+  deltaAttackForce: 500
+  gunAttackForceCoef: 1.5
   eliteMinAttackForce: 1200
   eliteMaxAttackForce: 1500
+  eliteDeltaAttackForce: 500
+  eliteGunAttackForceCoef: 1.5
   minHitForce: 500
   maxHitForce: 800
   eliteMinHitForce: 8000
@@ -849,6 +854,20 @@ MonoBehaviour:
   hitSound: {fileID: 4554520831075687756}
   dieSound: {fileID: 1326253470569646793}
   outlineColor: {r: 0.94509804, g: 0.79607844, b: 0.34901962, a: 1}
+--- !u!114 &4497534423185966698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3469684336205326038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34604063b83ffcd4196f3066df73b1e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lighted: 0
+  ricosheted: 0
 --- !u!1001 &3193222017072036294
 PrefabInstance:
   m_ObjectHideFlags: 0

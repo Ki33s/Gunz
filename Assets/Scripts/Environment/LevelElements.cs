@@ -57,8 +57,6 @@ public class LevelElements : MonoBehaviour
                     GameObject newBalcony = Instantiate(balcony, transform.position, transform.rotation, transform);
                     newBalcony.transform.GetChild(0).GetComponent<Renderer>().material = materials[Random.Range(0, materials.Length)];
                 }
-
-                
             }
 
             if(!isBalcony && Random.Range(0,100) < washLineGenProb)
@@ -70,10 +68,12 @@ public class LevelElements : MonoBehaviour
         }
         else if (corner && Random.Range(0, 100) < aircoinsGenProb)
         {
-            int aircoinPos = 1;
+            int aircoinPos = 0;
 
-             if (left)
-                aircoinPos = 2;
+            if (left)
+                aircoinPos = Random.Range(2, 4);
+            else
+                aircoinPos = Random.Range(0, 2);
 
             GameObject aircoin = Instantiate(aircoins[Random.Range(0, aircoins.Length)], aircoinSpawnPoints[aircoinPos].transform.position, aircoinSpawnPoints[aircoinPos].transform.rotation, aircoinSpawnPoints[aircoinPos].transform);
             aircoin.transform.GetChild(0).GetComponent<Renderer>().material = materials[Random.Range(0, materials.Length)];
@@ -82,7 +82,7 @@ public class LevelElements : MonoBehaviour
 
     void GenerateFlowers()
     {
-        if (!left && ! corner)
+        if ((!left && !corner) || (corner && right))
         {
             if (Random.Range(0, 100) < flowerGenProb)
             {
@@ -100,7 +100,7 @@ public class LevelElements : MonoBehaviour
             }
         }
 
-        if (!right && !corner)
+        if ((!right && !corner) || (corner && left))
         {
             if (Random.Range(0, 100) < flowerGenProb)
             {

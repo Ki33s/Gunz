@@ -13,12 +13,12 @@ public class Steam : MonoBehaviour
         steamSound.Play();
     }
 
-    void OnTriggerEnter(Collider myTrigger)
+   /* void OnTriggerEnter(Collider myTrigger)
     {
         if (myTrigger.gameObject.tag == "Gun" || myTrigger.gameObject.tag == "Enemy")
         {
             myTrigger.GetComponent<Rigidbody>().AddForce(-transform.TransformDirection(Vector3.left) * force, ForceMode.Force);
         }
-    }
+    }*/
     
 }

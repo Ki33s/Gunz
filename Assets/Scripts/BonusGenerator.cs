@@ -33,15 +33,15 @@ public class BonusGenerator : MonoBehaviour
 
     public int levelBonusGenProb;
     public int newBonusGenProb;
-    public int ammoGenProb = 25;
-    public int boostGenProb = 3;
-    public int grenadeGenProb = 3;
-    public int flashGenProb = 3;
-    public int silverCoiGenProb = 10;
-    public int goldCoinGenProb = 5;
-    public int deathGenProb = 1;
-    public int hearthGenProb = 1;
-    public int magnetGenProb = 1;
+    public int ammoGenProb = 250;
+    public int boostGenProb = 30;
+    public int grenadeGenProb = 30;
+    public int flashGenProb = 30;
+    public int silverCoiGenProb = 100;
+    public int goldCoinGenProb = 50;
+    public int deathGenProb = 10;
+    public int hearthGenProb = 10;
+    public int magnetGenProb = 10;
 
 
     public GameObject Coin;
@@ -104,7 +104,7 @@ public class BonusGenerator : MonoBehaviour
 
     void SpawnEnemy()
     {
-        int randNum = Random.Range(0, 10000);
+        int randNum = Random.Range(0, 100000);
 
         if (randNum < panGenProb)
         {
@@ -191,7 +191,7 @@ public class BonusGenerator : MonoBehaviour
 
     void GenerateBoost()
     {
-        if(Random.Range(0,100) < boostGenProb)
+        if(Random.Range(0,1000) < boostGenProb)
             Instantiate(Boost, new Vector3(Random.Range(0,7) - 3, maxPosY, -3), Quaternion.identity);
     }
 
@@ -261,7 +261,7 @@ public class BonusGenerator : MonoBehaviour
 
     void GenerateBonus(float coinX, float coinY)
     {
-        int randNum = Random.Range(0, 100);
+        int randNum = Random.Range(0, 1000);
 
         if (randNum < ammoGenProb)
         {

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6143024253303839096}
   - component: {fileID: 7663096805810780715}
   - component: {fileID: 8871624973630522090}
+  - component: {fileID: 5974008540750998772}
   m_Layer: 0
   m_Name: Ammo
   m_TagString: Bonus
@@ -110,6 +111,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   takeEffect: {fileID: 951581483686791532, guid: 325f1cbe2f85d294895048b12838ff13, type: 3}
+--- !u!114 &5974008540750998772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6469930406476255092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34604063b83ffcd4196f3066df73b1e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lighted: 0
+  ricosheted: 0
 --- !u!1001 &3448510946036210051
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -120,6 +135,14 @@ PrefabInstance:
     - target: {fileID: 1163771896122142, guid: c25375709a7d2e24ba8b622405bfc216, type: 3}
       propertyPath: m_Name
       value: FX_Pickup_Ammo_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1297103672879800, guid: c25375709a7d2e24ba8b622405bfc216, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4903591308292106, guid: c25375709a7d2e24ba8b622405bfc216, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4903591308292106, guid: c25375709a7d2e24ba8b622405bfc216, type: 3}
       propertyPath: m_LocalPosition.x
@@ -134,6 +157,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4903591308292106, guid: c25375709a7d2e24ba8b622405bfc216, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4903591308292106, guid: c25375709a7d2e24ba8b622405bfc216, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
@@ -143,14 +170,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4903591308292106, guid: c25375709a7d2e24ba8b622405bfc216, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4903591308292106, guid: c25375709a7d2e24ba8b622405bfc216, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4903591308292106, guid: c25375709a7d2e24ba8b622405bfc216, type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4903591308292106, guid: c25375709a7d2e24ba8b622405bfc216, type: 3}

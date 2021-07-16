@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8671576710947998301}
   - component: {fileID: 5247886608871213083}
   - component: {fileID: 1094377854163717207}
+  - component: {fileID: 3219316547908467615}
   m_Layer: 0
   m_Name: Boost
   m_TagString: Boost
@@ -208,6 +209,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3219316547908467615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6095576861964652182}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34604063b83ffcd4196f3066df73b1e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lighted: 0
+  ricosheted: 0
 --- !u!1001 &2828086453191979600
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -218,6 +233,18 @@ PrefabInstance:
     - target: {fileID: 1048394385358214, guid: 4aee0d2dc836414499493a1cc6872c3d, type: 3}
       propertyPath: m_Name
       value: FX_Direction_Arrows_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048394385358214, guid: 4aee0d2dc836414499493a1cc6872c3d, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 1352915096013946, guid: 4aee0d2dc836414499493a1cc6872c3d, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 1786146737573756, guid: 4aee0d2dc836414499493a1cc6872c3d, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 4270449348132814, guid: 4aee0d2dc836414499493a1cc6872c3d, type: 3}
       propertyPath: m_LocalScale.x

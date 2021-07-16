@@ -11,7 +11,7 @@ public class Boost : MonoBehaviour
     {
         if (myTrigger.gameObject.tag == "Gun")
         {
-            if(!myTrigger.GetComponent<Gun>().isEvent)
+            if(!myTrigger.GetComponent<Gun>().isEvent || !myTrigger.GetComponent<Gun>().shopExit)
             {
                 takeBoost.Play();
                 myTrigger.gameObject.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1, 0) * boostForce, ForceMode.Force);

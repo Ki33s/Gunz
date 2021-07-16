@@ -33,7 +33,7 @@ public class Heart : MonoBehaviour
 
             if (gun.GetComponent<Gun>().lifes < gun.GetComponent<Gun>().maxLifes)
             {
-                myTrigger.gameObject.GetComponent<Gun>().lifesArr[gun.GetComponent<Gun>().lifes] = gameObject;
+                gun.GetComponent<Gun>().lifesArr[gun.GetComponent<Gun>().lifes] = gameObject;
                 gun.GetComponent<Gun>().lifes++;
 
                 switch (gun.GetComponent<Gun>().lifes)
@@ -53,16 +53,49 @@ public class Heart : MonoBehaviour
 
                 Taken();
             }
+            if (myTrigger.gameObject.tag == "Duplicate")
+            {
+                gun = myTrigger.GetComponent<Duplicate>().gun;
+
+                if (gun.GetComponent<Gun>().lifes < gun.GetComponent<Gun>().maxLifes)
+                {
+                    gun.GetComponent<Gun>().lifesArr[gun.GetComponent<Gun>().lifes] = gameObject;
+                    gun.GetComponent<Gun>().lifes++;
+
+                    switch (gun.GetComponent<Gun>().lifes)
+                    {
+                        case 2:
+                            gunDeltaX = -0.5f;
+                            break;
+
+                        case 3:
+                            gunDeltaX = 0.5f;
+                            break;
+
+                        case 4:
+                            gunDeltaX = 1f;
+                            break;
+                    }
+
+                    Taken();
+                }
+                else
+                {
+                    Instantiate(takeEffect, new Vector3(transform.position.x, transform.position.y - 0.3f, transform.position.z), Quaternion.identity);
+                    Destroy(gameObject);
+                }
+
+            }
             else
             {
-                Instantiate(takeEffect, new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z), Quaternion.identity);
+                Instantiate(takeEffect, new Vector3(transform.position.x, transform.position.y - 0.3f, transform.position.z), Quaternion.identity);
                 Destroy(gameObject);
             }
 
         }
         else if (myTrigger.gameObject.tag == "Enemy" || myTrigger.gameObject.tag == "DestroyableEnemy")
         {
-            Instantiate(takeEffect, new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z), Quaternion.identity);
+            Instantiate(takeEffect, new Vector3(transform.position.x, transform.position.y - 0.3f, transform.position.z), Quaternion.identity);
             Destroy(gameObject);
         }
     }
@@ -101,7 +134,7 @@ public class Heart : MonoBehaviour
             }
             else
             {
-                Instantiate(takeEffect, new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z), Quaternion.identity);
+                Instantiate(takeEffect, new Vector3(transform.position.x, transform.position.y - 0.3f, transform.position.z), Quaternion.identity);
                 Destroy(gameObject);
             }
         }
@@ -111,7 +144,7 @@ public class Heart : MonoBehaviour
     {
         transform.gameObject.tag = "Untagged";
         takeLife.Play();
-        Instantiate(takeEffect, new Vector3(transform.position.x, transform.position.y - 0.5f, transform.position.z), Quaternion.identity);
+        Instantiate(takeEffect, new Vector3(transform.position.x, transform.position.y - 0.3f, transform.position.z), Quaternion.identity);
         Destroy(GetComponent<Collider>());
         transform.localScale = new Vector3(transform.localScale.x / 2, transform.localScale.x / 2, transform.localScale.x / 2);
         isTaken = true;

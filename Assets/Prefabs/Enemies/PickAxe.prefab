@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 7839882564469977528}
   - component: {fileID: 8239351820779815926}
   - component: {fileID: -7103756143683124049}
+  - component: {fileID: 6522383181755022160}
   m_Layer: 0
   m_Name: PickAxe
   m_TagString: Enemy
@@ -1194,13 +1195,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRandom: 2
-  attackMinTime: 2
+  attackMinTime: 1
   eliteAttackRandom: 1
   eliteAttackMinTIme: 1
   minAttackForce: 1000
   maxAttackForce: 1400
+  deltaAttackForce: 500
+  gunAttackForceCoef: 1.5
   eliteMinAttackForce: 1100
   eliteMaxAttackForce: 1500
+  eliteDeltaAttackForce: 500
+  eliteGunAttackForceCoef: 1.5
   minHitForce: 500
   maxHitForce: 800
   eliteMinHitForce: 1000
@@ -1233,6 +1238,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: 360
+--- !u!114 &6522383181755022160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1043430557233423634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34604063b83ffcd4196f3066df73b1e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lighted: 0
+  ricosheted: 0
 --- !u!1 &1043430557445583027
 GameObject:
   m_ObjectHideFlags: 0
@@ -1338,6 +1357,10 @@ PrefabInstance:
     - target: {fileID: 1295617296399724, guid: c59e08db54612244384ff025bbac7d3f, type: 3}
       propertyPath: m_Name
       value: SM_Wep_Fireaxe_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1295617296399724, guid: c59e08db54612244384ff025bbac7d3f, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 4858536361810938, guid: c59e08db54612244384ff025bbac7d3f, type: 3}
       propertyPath: m_RootOrder

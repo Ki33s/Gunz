@@ -113,6 +113,7 @@ GameObject:
   - component: {fileID: 7455068155270043298}
   - component: {fileID: -2514759945411157637}
   - component: {fileID: 3942780022577773549}
+  - component: {fileID: 3857049435539920202}
   m_Layer: 0
   m_Name: Machete
   m_TagString: Enemy
@@ -437,13 +438,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRandom: 2
-  attackMinTime: 2
+  attackMinTime: 1
   eliteAttackRandom: 1
   eliteAttackMinTIme: 1
   minAttackForce: 1000
   maxAttackForce: 1400
+  deltaAttackForce: 500
+  gunAttackForceCoef: 1.5
   eliteMinAttackForce: 1200
   eliteMaxAttackForce: 1600
+  eliteDeltaAttackForce: 500
+  eliteGunAttackForceCoef: 1.5
   minHitForce: 500
   maxHitForce: 1000
   eliteMinHitForce: 1000
@@ -476,6 +481,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: 360
+--- !u!114 &3857049435539920202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7707849826681258811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34604063b83ffcd4196f3066df73b1e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lighted: 0
+  ricosheted: 0
 --- !u!1001 &2405232544382055680
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -486,6 +505,10 @@ PrefabInstance:
     - target: {fileID: 1657996491295356, guid: 9023a47e211f9384aa25b0a32a008f0f, type: 3}
       propertyPath: m_Name
       value: SM_Wep_Machete_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1657996491295356, guid: 9023a47e211f9384aa25b0a32a008f0f, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 4244360012557640, guid: 9023a47e211f9384aa25b0a32a008f0f, type: 3}
       propertyPath: m_RootOrder

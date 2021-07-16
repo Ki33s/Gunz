@@ -12,6 +12,7 @@ public class BuildingGenerator : MonoBehaviour
     public int levelDeltaY = 15;
     private int lastLevelY = 0;
 
+    public GameObject floor;
     public GameObject[] levelDoors;
     public GameObject[] levels;
     public Material[] materials;
@@ -31,6 +32,7 @@ public class BuildingGenerator : MonoBehaviour
 
     public GameObject leftWall;
     public GameObject rightWall;
+    public GameObject midWall;
 
     private int wallDeltaY = 12;
 
@@ -44,6 +46,7 @@ public class BuildingGenerator : MonoBehaviour
     void Start()
     {
         Application.targetFrameRate = 60;
+        GenerateFloor();
         GenerateDoor();
         GenerateLevels(4*floorsToGenerate);
         LiftWalls();
@@ -67,6 +70,17 @@ public class BuildingGenerator : MonoBehaviour
 
     }
 
+    private void GenerateFloor()
+    {
+        int floorRandNum = Random.Range(0, materials.Length);
+        GameObject newFloor = Instantiate(floor, new Vector3(0, -0.1f, -3), Quaternion.identity);
+
+        for(int i =0; i<9; i++)
+        {
+            newFloor.transform.GetChild(i).GetComponent<Renderer>().material = materials[floorRandNum];
+        }
+    }
+
     public void StartGame()
     {
         foreach (GameObject tempgun in GameObject.FindGameObjectsWithTag("Gun"))
@@ -84,7 +98,7 @@ public class BuildingGenerator : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, eventCamPlace, Time.deltaTime * damping);
         }
 
-        if (Input.GetMouseButtonDown(0) || Input.touchCount > 0)
+        if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
             Ray ray = GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
@@ -95,29 +109,91 @@ public class BuildingGenerator : MonoBehaviour
                 {
                     hit.transform.GetComponent<ATM>().ItemBuy();
                 }
+                else if (hit.transform.tag == "ShopBonus")
+                {
+                    if (!hit.transform.GetComponent<BonusShop>().bonusBought)
+                        hit.transform.GetComponent<BonusShop>().BuyBonus();
+                    else
+                        ExitEvent();
+                }
                 else if(hit.transform.tag == "Exit")
                 {
                     ExitEvent();
                 }
+                else if(hit.transform.tag == "Bonus" || hit.transform.tag == "Boost" || hit.transform.tag == "Enemy")
+                {
+                    CheckItem(hit.transform.position);
+                }
+            }
+        }
+
+        if (Input.touchCount > 0)
+        {
+            Vector2 touchPos = new Vector2(0,0);
+
+            foreach (var th in Input.touches)
+            {
+                touchPos = th.position;
+            }
+
+            RaycastHit hit;
+            Ray ray = GetComponent<Camera>().ScreenPointToRay(touchPos);
+
+            if (Physics.Raycast(ray, out hit, 10))
+            {
+                if (hit.transform.tag == "ATM")
+                {
+                    hit.transform.GetComponent<ATM>().ItemBuy();
+                }
+                else if (hit.transform.tag == "Exit")
+                {
+                    ExitEvent();
+                }
+                else if (hit.transform.tag == "Bonus" || hit.transform.tag == "Boost" || hit.transform.tag == "Enemy")
+                {
+                    CheckItem(hit.transform.position);
+                }
+            }
+        }
+    }
+
+    private void CheckItem(Vector3 startRay)
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(startRay, transform.TransformDirection(Vector3.forward), out hit, 10))
+        {
+            if (hit.transform.tag == "ATM")
+            {
+                hit.transform.GetComponent<ATM>().ItemBuy();
+            }
+            else if (hit.transform.tag == "Exit")
+            {
+                ExitEvent();
+            }
+            else if (hit.transform.tag == "Bonus" || hit.transform.tag == "Enemy")
+            {
+                CheckItem(hit.transform.position);
             }
         }
     }
 
     public void ExitEvent()
     {
+
         lastEventEnter.GetComponent<EventEnter>().GunExit();
         isEvent = false;
+        gun.GetComponent<Gun>().ExitShop();
         gun.GetComponent<Gun>().isEvent = false;
         gun.GetComponent<Rigidbody>().useGravity = true;
         gun.GetComponent<Rigidbody>().AddForce(new Vector3(0, 1, 0) * eventExitForce, ForceMode.Force);
-
-
     }
 
     void LiftWalls()
     {
         leftWall.transform.position = new Vector3(leftWall.transform.position.x, lastLevelY - wallDeltaY, leftWall.transform.position.z);
         rightWall.transform.position = new Vector3(rightWall.transform.position.x, lastLevelY - wallDeltaY, rightWall.transform.position.z);
+        midWall.transform.position = new Vector3(midWall.transform.position.x, lastLevelY - wallDeltaY, midWall.transform.position.z);
     }
 
     void CheckNewLevels()

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5660127127391775422}
   m_Layer: 3
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: DestroyableEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -204,6 +204,7 @@ GameObject:
   - component: {fileID: 6866026862638656378}
   - component: {fileID: 782972826304104044}
   - component: {fileID: 3411499577441573411}
+  - component: {fileID: 1168761491203566033}
   m_Layer: 0
   m_Name: Bottle (2)
   m_TagString: DestroyableEnemy
@@ -243,7 +244,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2303987175042934330}
   m_Enabled: 0
-  m_CastShadows: 0
+  m_CastShadows: 1
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -322,13 +323,17 @@ MonoBehaviour:
   dieParticles: {fileID: 7417804699936144449, guid: 7acb5668d8b467442bf8a4d4b1186427, type: 3}
   hitSound: {fileID: 3411499577441573411}
   attackRandom: 2
-  attackMinTime: 2
+  attackMinTime: 1
   eliteAttackRandom: 1
   eliteAttackMinTIme: 1
   minAttackForce: 1000
   maxAttackForce: 1400
+  deltaAttackForce: 500
+  gunAttackForceCoef: 1.5
   eliteMinAttackForce: 1200
   eliteMaxAttackForce: 1600
+  eliteDeltaAttackForce: 500
+  eliteGunAttackForceCoef: 1.5
   minHitForce: 500
   maxHitForce: 800
   eliteMinHitForce: 1000
@@ -439,6 +444,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1168761491203566033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2303987175042934330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34604063b83ffcd4196f3066df73b1e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lighted: 0
+  ricosheted: 0
 --- !u!1 &2967682500550057557
 GameObject:
   m_ObjectHideFlags: 0
@@ -709,6 +728,7 @@ GameObject:
   - component: {fileID: 5590852087672107703}
   - component: {fileID: 2496814210735515279}
   - component: {fileID: 150129650841400410}
+  - component: {fileID: 7757586804274107966}
   m_Layer: 0
   m_Name: Bottles
   m_TagString: DestroyableEnemy
@@ -823,7 +843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRandom: 2
-  attackMinTime: 2
+  attackMinTime: 1
   eliteAttackRandom: 1
   eliteAttackMinTIme: 1
   speed: 15
@@ -833,6 +853,20 @@ MonoBehaviour:
   maxFollowSpeed: 15
   speedDelta: 15
   bottlesRotate: {fileID: 5590852087096822102}
+--- !u!114 &7757586804274107966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5590852087672107700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34604063b83ffcd4196f3066df73b1e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lighted: 0
+  ricosheted: 0
 --- !u!114 &24760771017900841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -876,6 +910,7 @@ GameObject:
   - component: {fileID: 1800883083059785287}
   - component: {fileID: 2278082330973816101}
   - component: {fileID: 7956309226524044391}
+  - component: {fileID: 2094762174844476159}
   m_Layer: 0
   m_Name: Bottle (1)
   m_TagString: DestroyableEnemy
@@ -915,7 +950,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8125478035921047887}
   m_Enabled: 0
-  m_CastShadows: 0
+  m_CastShadows: 1
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -994,13 +1029,17 @@ MonoBehaviour:
   dieParticles: {fileID: 7417804699936144449, guid: 7acb5668d8b467442bf8a4d4b1186427, type: 3}
   hitSound: {fileID: 7956309226524044391}
   attackRandom: 2
-  attackMinTime: 2
+  attackMinTime: 1
   eliteAttackRandom: 1
   eliteAttackMinTIme: 1
   minAttackForce: 1000
   maxAttackForce: 1400
+  deltaAttackForce: 500
+  gunAttackForceCoef: 1.5
   eliteMinAttackForce: 1200
   eliteMaxAttackForce: 1600
+  eliteDeltaAttackForce: 500
+  eliteGunAttackForceCoef: 1.5
   minHitForce: 500
   maxHitForce: 800
   eliteMinHitForce: 1000
@@ -1111,6 +1150,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2094762174844476159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8125478035921047887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34604063b83ffcd4196f3066df73b1e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lighted: 0
+  ricosheted: 0
 --- !u!1 &8284489521558868648
 GameObject:
   m_ObjectHideFlags: 0
@@ -1126,6 +1179,7 @@ GameObject:
   - component: {fileID: 7165409804835716578}
   - component: {fileID: 8609539258384545500}
   - component: {fileID: 7094789973260498027}
+  - component: {fileID: 3060096834035805387}
   m_Layer: 0
   m_Name: Bottle
   m_TagString: DestroyableEnemy
@@ -1165,7 +1219,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8284489521558868648}
   m_Enabled: 0
-  m_CastShadows: 0
+  m_CastShadows: 1
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
@@ -1244,13 +1298,17 @@ MonoBehaviour:
   dieParticles: {fileID: 7417804699936144449, guid: 7acb5668d8b467442bf8a4d4b1186427, type: 3}
   hitSound: {fileID: 7094789973260498027}
   attackRandom: 2
-  attackMinTime: 2
+  attackMinTime: 1
   eliteAttackRandom: 1
   eliteAttackMinTIme: 1
   minAttackForce: 1000
   maxAttackForce: 1400
+  deltaAttackForce: 500
+  gunAttackForceCoef: 1.5
   eliteMinAttackForce: 1200
   eliteMaxAttackForce: 1600
+  eliteDeltaAttackForce: 500
+  eliteGunAttackForceCoef: 1.5
   minHitForce: 500
   maxHitForce: 800
   eliteMinHitForce: 1000
@@ -1361,6 +1419,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3060096834035805387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8284489521558868648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34604063b83ffcd4196f3066df73b1e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lighted: 0
+  ricosheted: 0
 --- !u!1001 &5093310745762596794
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1371,6 +1443,10 @@ PrefabInstance:
     - target: {fileID: 148474, guid: 4f96f6be8b901eb4c80c229856393703, type: 3}
       propertyPath: m_Name
       value: SM_Prop_LargeSign_Bottle_01
+      objectReference: {fileID: 0}
+    - target: {fileID: 148474, guid: 4f96f6be8b901eb4c80c229856393703, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 487122, guid: 4f96f6be8b901eb4c80c229856393703, type: 3}
       propertyPath: m_RootOrder
@@ -1456,6 +1532,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_LargeSign_Bottle_01
       objectReference: {fileID: 0}
+    - target: {fileID: 148474, guid: 4f96f6be8b901eb4c80c229856393703, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 487122, guid: 4f96f6be8b901eb4c80c229856393703, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1519,14 +1599,14 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 64205517211238588, guid: 4f96f6be8b901eb4c80c229856393703, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4f96f6be8b901eb4c80c229856393703, type: 3}
---- !u!4 &5590852088892598629 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 487122, guid: 4f96f6be8b901eb4c80c229856393703, type: 3}
-  m_PrefabInstance: {fileID: 5590852088892934071}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5590852088892785741 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 148474, guid: 4f96f6be8b901eb4c80c229856393703, type: 3}
+  m_PrefabInstance: {fileID: 5590852088892934071}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5590852088892598629 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 487122, guid: 4f96f6be8b901eb4c80c229856393703, type: 3}
   m_PrefabInstance: {fileID: 5590852088892934071}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6805816240989853171
@@ -1540,6 +1620,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SM_Prop_LargeSign_Bottle_01
       objectReference: {fileID: 0}
+    - target: {fileID: 148474, guid: 4f96f6be8b901eb4c80c229856393703, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 487122, guid: 4f96f6be8b901eb4c80c229856393703, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1603,13 +1687,13 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 64205517211238588, guid: 4f96f6be8b901eb4c80c229856393703, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 4f96f6be8b901eb4c80c229856393703, type: 3}
---- !u!4 &6805816240990305057 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 487122, guid: 4f96f6be8b901eb4c80c229856393703, type: 3}
-  m_PrefabInstance: {fileID: 6805816240989853171}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6805816240989967881 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 148474, guid: 4f96f6be8b901eb4c80c229856393703, type: 3}
+  m_PrefabInstance: {fileID: 6805816240989853171}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6805816240990305057 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 487122, guid: 4f96f6be8b901eb4c80c229856393703, type: 3}
   m_PrefabInstance: {fileID: 6805816240989853171}
   m_PrefabAsset: {fileID: 0}

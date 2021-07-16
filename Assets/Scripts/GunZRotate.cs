@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GunZRotate : MonoBehaviour
 {
-    private bool right = false;
+    public bool right = false;
     public int rotateSpeed = 270;
     // Start is called before the first frame update
     void Start()
